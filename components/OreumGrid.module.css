@@ -1,0 +1,463 @@
+/* 메인 컨테이너 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* 헤더 */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.headerContent {
+  padding: 0 20px;
+}
+
+.title {
+  font-size: 2rem;
+  color: var(--earth-brown);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.count {
+  font-size: 1.1rem;
+  color: var(--mist-blue-gray);
+  margin: 0;
+}
+
+/* 검색 및 필터 컨트롤 */
+.controls {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.searchBox {
+  position: relative;
+  flex: 1;
+  min-width: 280px;
+  max-width: 400px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: var(--mist-blue-gray);
+  z-index: 1;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 2px solid #e5e5e5;
+  border-radius: 25px;
+  font-size: 1rem;
+  background: white;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--moss-green);
+  box-shadow: 0 0 0 3px rgba(139, 90, 60, 0.1);
+}
+
+.clearButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--mist-blue-gray);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.clearButton:hover {
+  background: #f0f0f0;
+  color: var(--earth-brown);
+}
+
+.sortBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.sortBox label {
+  font-size: 0.9rem;
+  color: var(--earth-brown);
+  font-weight: 500;
+}
+
+.sortSelect {
+  padding: 8px 12px;
+  border: 2px solid #e5e5e5;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sortSelect:focus {
+  outline: none;
+  border-color: var(--moss-green);
+}
+
+/* 검색 결과 없음 */
+.noResults {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--mist-blue-gray);
+}
+
+.noResults span {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.noResults h3 {
+  font-size: 1.5rem;
+  color: var(--earth-brown);
+  margin-bottom: 10px;
+}
+
+.noResults p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Masonry 그리드 */
+.masonryGrid {
+  display: flex;
+  margin-left: -20px;
+  width: auto;
+}
+
+.masonryColumn {
+  padding-left: 20px;
+  background-clip: padding-box;
+}
+
+/* 오름 카드 */
+.oreumCard {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.oreumCard:hover {
+  box-shadow: var(--shadow-medium);
+}
+
+/* 카드 이미지 */
+.cardImage {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.cardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.oreumCard:hover .cardImage img {
+  transform: scale(1.05);
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.typeTag {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--earth-brown);
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+}
+
+/* 카드 콘텐츠 */
+.cardContent {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.oreumName {
+  font-size: 1.3rem;
+  color: var(--earth-brown);
+  margin-bottom: 8px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.oreumLocation {
+  color: var(--mist-blue-gray);
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.oreumMeta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #f8f6f0;
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+.metaIcon {
+  font-size: 0.9rem;
+}
+
+.metaText {
+  font-size: 0.8rem;
+  color: var(--earth-brown);
+  font-weight: 500;
+}
+
+.oreumDescription {
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardFooter {
+  margin-top: auto;
+}
+
+.detailButton {
+  background: var(--moss-green);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.detailButton:hover {
+  background: var(--earth-brown);
+  transform: translateY(-1px);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .header {
+    margin-bottom: 30px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .count {
+    font-size: 1rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .searchBox {
+    min-width: auto;
+    max-width: none;
+    width: 100%;
+  }
+
+  .sortBox {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .masonryGrid {
+    margin-left: -10px;
+  }
+
+  .masonryColumn {
+    padding-left: 10px;
+  }
+
+  .oreumCard {
+    margin-bottom: 15px;
+    border-radius: 15px;
+  }
+
+  .cardImage {
+    height: 150px;
+  }
+
+  .cardContent {
+    padding: 15px;
+  }
+
+  .oreumName {
+    font-size: 1.1rem;
+  }
+
+  .oreumMeta {
+    gap: 10px;
+  }
+
+  .metaItem {
+    padding: 5px 8px;
+    border-radius: 10px;
+  }
+
+  .metaText {
+    font-size: 0.75rem;
+  }
+
+  .oreumDescription {
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    -webkit-line-clamp: 2;
+  }
+
+  .detailButton {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .noResults {
+    padding: 60px 20px;
+  }
+
+  .noResults span {
+    font-size: 2.5rem;
+  }
+
+  .noResults h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 5px;
+  }
+
+  .headerContent {
+    padding: 0 10px;
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .count {
+    font-size: 0.9rem;
+  }
+
+  .searchInput {
+    padding: 10px 12px 10px 40px;
+  }
+
+  .searchIcon {
+    left: 12px;
+    font-size: 1rem;
+  }
+
+  .clearButton {
+    right: 10px;
+    font-size: 0.9rem;
+  }
+
+  .cardContent {
+    padding: 12px;
+  }
+
+  .oreumName {
+    font-size: 1rem;
+  }
+
+  .oreumLocation {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+  }
+
+  .oreumMeta {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .metaItem {
+    padding: 4px 6px;
+  }
+
+  .metaIcon {
+    font-size: 0.8rem;
+  }
+
+  .metaText {
+    font-size: 0.7rem;
+  }
+
+  .oreumDescription {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+  }
+
+  .detailButton {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 12px;
+  }
+}

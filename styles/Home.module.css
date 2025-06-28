@@ -1,0 +1,657 @@
+.page {
+  --gray-rgb: 0, 0, 0;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+
+  display: grid;
+  grid-template-rows: 20px 1fr 20px;
+  align-items: center;
+  justify-items: center;
+  min-height: 100svh;
+  padding: 80px;
+  gap: 64px;
+  font-family: var(--font-geist-sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    --gray-rgb: 255, 255, 255;
+    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+
+    --button-primary-hover: #ccc;
+    --button-secondary-hover: #1a1a1a;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  grid-row-start: 2;
+}
+
+.main ol {
+  font-family: var(--font-geist-mono);
+  padding-left: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+  list-style-position: inside;
+}
+
+.main li:not(:last-of-type) {
+  margin-bottom: 8px;
+}
+
+.main code {
+  font-family: inherit;
+  background: var(--gray-alpha-100);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.ctas {
+  display: flex;
+  gap: 16px;
+}
+
+.ctas a {
+  appearance: none;
+  border-radius: 128px;
+  height: 48px;
+  padding: 0 20px;
+  border: none;
+  border: 1px solid transparent;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+a.primary {
+  background: var(--foreground);
+  color: var(--background);
+  gap: 8px;
+}
+
+a.secondary {
+  border-color: var(--gray-alpha-200);
+  min-width: 158px;
+}
+
+.footer {
+  grid-row-start: 3;
+  display: flex;
+  gap: 24px;
+}
+
+.footer a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer img {
+  flex-shrink: 0;
+}
+
+/* Enable hover only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  a.primary:hover {
+    background: var(--button-primary-hover);
+    border-color: transparent;
+  }
+
+  a.secondary:hover {
+    background: var(--button-secondary-hover);
+    border-color: transparent;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 32px;
+    padding-bottom: 80px;
+  }
+
+  .main {
+    align-items: center;
+  }
+
+  .main ol {
+    text-align: center;
+  }
+
+  .ctas {
+    flex-direction: column;
+  }
+
+  .ctas a {
+    font-size: 14px;
+    height: 40px;
+    padding: 0 16px;
+  }
+
+  a.secondary {
+    min-width: auto;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    filter: invert();
+  }
+}
+
+/* 메인 컨테이너 */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #f8f6f0 0%, #fffef8 100%);
+}
+
+/* 헤더 */
+.header {
+  background: white;
+  box-shadow: var(--shadow-soft);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 20px 0;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.headerContent h1 {
+  font-size: 2.5rem;
+  color: var(--earth-brown);
+  margin-bottom: 8px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.headerContent h1:hover {
+  color: var(--moss-green);
+  transform: scale(1.02);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--mist-blue-gray);
+  margin: 0;
+}
+
+/* 탭 메뉴 스타일 */
+.tabContainer {
+  margin-bottom: 2rem;
+}
+
+.tabMenu {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  background: var(--oreum-mist);
+  border-radius: 12px;
+  padding: 4px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.tab {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--earth-brown);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.activeTab {
+  background: white;
+  color: var(--earth-brown);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+}
+
+/* 지역 태그 스타일 */
+.regionTag {
+  display: inline-block;
+  background: var(--moss-green);
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+/* 네비게이션 */
+.navigation {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.backButton {
+  background: var(--moss-green);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.backButton:hover {
+  background: var(--earth-brown);
+  transform: translateY(-1px);
+}
+
+.breadcrumb {
+  font-size: 0.9rem;
+  color: var(--mist-blue-gray);
+}
+
+.breadcrumb span {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb span:hover {
+  color: var(--earth-brown);
+}
+
+/* 메인 콘텐츠 */
+.main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+/* 로딩 */
+.loading {
+  text-align: center;
+  padding: 100px 20px;
+  color: var(--earth-brown);
+}
+
+.loadingSpinner {
+  font-size: 4rem;
+  animation: bounce 2s infinite;
+  margin-bottom: 30px;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+.loading h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.loading p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/* 에러 */
+.error {
+  text-align: center;
+  padding: 100px 20px;
+  color: var(--earth-brown);
+}
+
+.error span {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.error h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #d73527;
+}
+
+.error p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+.error button {
+  background: var(--moss-green);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.error button:hover {
+  background: var(--earth-brown);
+  transform: translateY(-2px);
+}
+
+/* 구/읍/면 선택 뷰 */
+.districtView {
+  text-align: center;
+}
+
+.districtView h2 {
+  font-size: 2rem;
+  color: var(--earth-brown);
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
+.districtGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.districtCard {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.districtCard:hover {
+  box-shadow: var(--shadow-medium);
+}
+
+.districtImage {
+  height: 200px;
+  overflow: hidden;
+}
+
+.districtImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.districtCard:hover .districtImage img {
+  transform: scale(1.05);
+}
+
+.districtInfo {
+  padding: 20px;
+  text-align: center;
+}
+
+.districtInfo h3 {
+  font-size: 1.3rem;
+  color: var(--earth-brown);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.districtInfo p {
+  color: var(--mist-blue-gray);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* 푸터 */
+.footer {
+  background: var(--gradient-primary);
+  color: white;
+  margin-top: auto;
+  padding: 60px 0 40px;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  text-align: center;
+}
+
+.footerSection h4 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.footerSection p {
+  margin: 8px 0;
+  opacity: 0.9;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.footerBottom {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footerBottom p {
+  margin: 0;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px 0;
+  }
+
+  .headerContent h1 {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .navigation {
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
+  }
+
+  .main {
+    padding: 30px 15px;
+  }
+
+  .loading {
+    padding: 80px 15px;
+  }
+
+  .loadingSpinner {
+    font-size: 3rem;
+  }
+
+  .loading h2 {
+    font-size: 1.5rem;
+  }
+
+  .loading p {
+    font-size: 1rem;
+  }
+
+  .districtView h2 {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+  }
+
+  .districtGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .districtImage {
+    height: 150px;
+  }
+
+  .districtInfo {
+    padding: 15px;
+  }
+
+  .districtInfo h3 {
+    font-size: 1.1rem;
+  }
+
+  .tabMenu {
+    max-width: 350px;
+    padding: 3px;
+  }
+
+  .tab {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .regionTag {
+    font-size: 0.65rem;
+    padding: 1px 4px;
+  }
+
+  .footerContent {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .footer {
+    padding: 40px 0 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerContent {
+    padding: 0 15px;
+  }
+
+  .headerContent h1 {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .main {
+    padding: 20px 10px;
+  }
+
+  .backButton {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .breadcrumb {
+    font-size: 0.8rem;
+  }
+
+  .districtCard {
+    border-radius: 15px;
+  }
+
+  .districtImage {
+    height: 120px;
+  }
+
+  .tabMenu {
+    max-width: 320px;
+    padding: 2px;
+  }
+
+  .tab {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .regionTag {
+    font-size: 0.6rem;
+    padding: 1px 3px;
+  }
+
+  .footerContent {
+    padding: 0 15px;
+  }
+
+  .footerSection h4 {
+    font-size: 1.1rem;
+  }
+
+  .footerSection p {
+    font-size: 0.85rem;
+  }
+}

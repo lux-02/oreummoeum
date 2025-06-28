@@ -1,0 +1,702 @@
+/* 모달 오버레이 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* 모달 */
+.modal {
+  background: white;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: var(--shadow-strong);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 헤더 */
+.header {
+  background: var(--gradient-primary);
+  color: white;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.headerContent {
+  flex: 1;
+}
+
+.oreumName {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin: 0 0 8px 0;
+}
+
+.oreumLocation {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 15px;
+}
+
+.oreumMeta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.metaTag {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  backdrop-filter: blur(10px);
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.favoriteBtn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.favoriteBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.favoriteBtn.favorited {
+  background: rgba(255, 107, 107, 0.3);
+}
+
+.closeBtn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* 탭 네비게이션 */
+.tabNav {
+  display: flex;
+  background: #f8f6f0;
+  border-bottom: 1px solid #e5e5e5;
+  overflow-x: auto;
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  color: var(--mist-blue-gray);
+  font-weight: 500;
+}
+
+.tabButton:hover {
+  background: rgba(139, 90, 60, 0.1);
+  color: var(--earth-brown);
+}
+
+.tabButton.active {
+  background: white;
+  color: var(--earth-brown);
+  border-bottom: 3px solid var(--moss-green);
+}
+
+.tabIcon {
+  font-size: 1.2rem;
+}
+
+.tabLabel {
+  font-size: 0.9rem;
+}
+
+/* 탭 콘텐츠 */
+.tabContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--mist-blue-gray);
+  font-size: 1.1rem;
+}
+
+.loadingSpinner {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* API 알림 */
+.apiNotice {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #856404;
+}
+
+.apiNotice span {
+  font-size: 1.1rem;
+  margin-top: 2px;
+}
+
+.apiNotice p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 개요 탭 */
+.overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.mainImage {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.mainImage img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.apiDataBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(76, 175, 80, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.descriptionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.description h3 {
+  font-size: 1.3rem;
+  color: var(--earth-brown);
+  margin: 0;
+}
+
+.sourceIndicator {
+  font-size: 0.75rem;
+  color: var(--oreum-orange);
+  background: rgba(255, 152, 0, 0.1);
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.overviewContent {
+  margin-bottom: 25px;
+}
+
+.overviewContent p {
+  line-height: 1.6;
+  color: var(--dark-gray);
+  margin-bottom: 12px;
+}
+
+.emptyLine {
+  height: 8px;
+  margin-bottom: 8px !important;
+}
+
+.basicInfo {
+  background: var(--oreum-mist);
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.infoRow:last-child {
+  margin-bottom: 0;
+}
+
+.infoLabel {
+  color: var(--earth-brown);
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.infoValue {
+  color: var(--dark-gray);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* 이용정보 탭 */
+.usage {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: #f8f6f0;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.infoItem:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.infoIcon {
+  font-size: 1.5rem;
+  width: 40px;
+  text-align: center;
+}
+
+.infoItem h4 {
+  font-size: 1rem;
+  color: var(--earth-brown);
+  margin: 0 0 4px 0;
+}
+
+.infoItem p {
+  color: var(--dark-gray);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* 반려견 탭 */
+.pet {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.petStatus {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.petBadge {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.petBadge.allowed {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  border: 2px solid #4caf50;
+}
+
+.petBadge.notAllowed {
+  background: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  border: 2px solid #f44336;
+}
+
+.petBadge.unknown {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ff8f00;
+  border: 2px solid #ff8f00;
+}
+
+.petDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.petInfo {
+  padding: 20px;
+  background: #f8f6f0;
+  border-radius: 16px;
+}
+
+.petInfo h4 {
+  color: var(--earth-brown);
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+}
+
+.petInfo p {
+  color: var(--dark-gray);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 사진 탭 */
+.photos {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.imageStats {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 12px 20px;
+  background: var(--oreum-mist);
+  border-radius: 12px;
+}
+
+.imageStats p {
+  margin: 0;
+  color: var(--earth-brown);
+  font-weight: 500;
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.imageItem {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+}
+
+.imageItem:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+}
+
+.imageItem:hover .imageOverlay {
+  opacity: 1;
+}
+
+.imageItem img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imageSource {
+  display: inline-block;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  backdrop-filter: blur(4px);
+}
+
+.noPhotos {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--mist-blue-gray);
+}
+
+.noPhotos span {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.noPhotos h3 {
+  font-size: 1.3rem;
+  color: var(--earth-brown);
+  margin-bottom: 10px;
+}
+
+.noPhotos p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+/* 지도 탭 */
+.location {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.coordinates {
+  background: #f8f6f0;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.coordinates h4 {
+  color: var(--earth-brown);
+  margin: 0 0 10px 0;
+}
+
+.coordinates p {
+  margin: 4px 0;
+  color: var(--dark-gray);
+  font-family: monospace;
+}
+
+.address {
+  font-family: var(--font-primary) !important;
+  font-weight: 500;
+  color: var(--earth-brown) !important;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 10px;
+  margin-top: 10px !important;
+}
+
+.mapPlaceholder {
+  text-align: center;
+  padding: 60px 20px;
+  background: #f8f6f0;
+  border-radius: 16px;
+  color: var(--mist-blue-gray);
+}
+
+.mapPlaceholder span {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.mapPlaceholder h3 {
+  font-size: 1.3rem;
+  color: var(--earth-brown);
+  margin-bottom: 10px;
+}
+
+.mapPlaceholder p {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .overlay {
+    padding: 10px;
+  }
+
+  .modal {
+    max-height: 95vh;
+    border-radius: 16px;
+  }
+
+  .header {
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .headerActions {
+    align-self: flex-end;
+  }
+
+  .oreumName {
+    font-size: 1.6rem;
+  }
+
+  .oreumMeta {
+    gap: 8px;
+  }
+
+  .metaTag {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+
+  .tabButton {
+    padding: 12px 16px;
+  }
+
+  .tabLabel {
+    display: none;
+  }
+
+  .tabContent {
+    padding: 20px;
+  }
+
+  .overview {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .mainImage img {
+    height: 200px;
+  }
+
+  .apiDataBadge {
+    top: 8px;
+    left: 8px;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+
+  .basicInfo {
+    padding: 12px;
+  }
+
+  .infoRow {
+    margin-bottom: 8px;
+  }
+
+  .infoLabel,
+  .infoValue {
+    font-size: 0.8rem;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .infoItem {
+    padding: 15px;
+  }
+
+  .imageGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .imageItem img {
+    height: 150px;
+  }
+
+  .apiNotice {
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .oreumName {
+    font-size: 1.4rem;
+  }
+
+  .tabContent {
+    padding: 15px;
+  }
+
+  .favoriteBtn,
+  .closeBtn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .loadingSpinner {
+    font-size: 2.5rem;
+  }
+}

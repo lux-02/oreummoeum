@@ -1,0 +1,236 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+/* 헤더 */
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--mist-blue-gray);
+  font-weight: 400;
+}
+
+/* 지역 그리드 */
+.regionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.regionCard {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 200px;
+  position: relative;
+}
+
+.regionCard:hover {
+  box-shadow: var(--shadow-medium);
+}
+
+.regionImage {
+  width: 100%;
+  height: 60%;
+  overflow: hidden;
+  position: relative;
+}
+
+.regionImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.regionCard:hover .regionImage img {
+  transform: scale(1.05);
+}
+
+.regionInfo {
+  padding: 20px;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(248, 246, 240, 0.9) 100%
+  );
+}
+
+.regionName {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--earth-brown);
+  margin-bottom: 8px;
+}
+
+.regionBadge {
+  background: var(--gradient-secondary);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* 구역 섹션 */
+.districtSection {
+  margin-top: 40px;
+}
+
+.backButton {
+  margin-bottom: 30px;
+}
+
+.districtGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.districtCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 180px;
+  position: relative;
+}
+
+.districtCard:hover {
+  box-shadow: var(--shadow-medium);
+}
+
+.districtImage {
+  width: 100%;
+  height: 65%;
+  overflow: hidden;
+  position: relative;
+}
+
+.districtImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.districtCard:hover .districtImage img {
+  transform: scale(1.08);
+}
+
+.districtInfo {
+  padding: 15px;
+  height: 35%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(248, 246, 240, 0.95) 100%
+  );
+}
+
+.districtName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--earth-brown);
+  margin: 0;
+}
+
+.exploreText {
+  color: var(--moss-green);
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.districtCard:hover .exploreText {
+  opacity: 1;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .regionGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .regionCard {
+    height: 160px;
+  }
+
+  .regionName {
+    font-size: 1.3rem;
+  }
+
+  .districtGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .districtCard {
+    height: 160px;
+  }
+
+  .districtName {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .regionGrid,
+  .districtGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .regionCard,
+  .districtCard {
+    height: 140px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+}
