@@ -65,6 +65,7 @@
   background: white;
   transition: all 0.3s ease;
   box-sizing: border-box;
+  color: var(--earth-brown);
 }
 
 .searchInput:focus {
@@ -200,7 +201,7 @@
 }
 
 .typeTag {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--white);
   color: var(--earth-brown);
   padding: 6px 12px;
   border-radius: 15px;
@@ -243,9 +244,9 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  background: #f8f6f0;
   padding: 6px 10px;
   border-radius: 12px;
+  border: 1px solid var(--earth-brown);
 }
 
 .metaIcon {
@@ -275,7 +276,7 @@
 }
 
 .detailButton {
-  background: var(--moss-green);
+  background: var(--earth-brown);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -408,6 +409,7 @@
 
   .searchInput {
     padding: 10px 12px 10px 40px;
+    color: var(--earth-brown);
   }
 
   .searchIcon {

@@ -5,10 +5,9 @@ import RegionSelector from "../components/RegionSelector";
 import OreumGrid from "../components/OreumGrid";
 import OreumDetail from "../components/OreumDetail";
 import {
-  parseOreumCSV,
-  getRegionImage,
-  getDistrictsByRegion,
-  filterByRegion,
+  parseOreumData,
+  filterByCity,
+  getStatistics,
 } from "../utils/oreumData";
 import styles from "../styles/Home.module.css";
 
@@ -22,6 +21,40 @@ export default function Home() {
   const [filteredOreumData, setFilteredOreumData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [statistics, setStatistics] = useState(null);
+
+  // 지역별 이미지 맵핑
+  const getRegionImage = (city, district) => {
+    const cityFolder = city === "제주시" ? "제주시" : "서귀포시";
+    const districtFile = district || "동지역";
+    return `/img/지역별/${cityFolder}/${cityFolder}_${districtFile}.jpg`;
+  };
+
+  // 구/읍/면별 오름 개수 계산
+  const getDistrictsByCity = (city) => {
+    if (!oreumData.length) return [];
+    const districts = [
+      ...new Set(
+        oreumData
+          .filter((oreum) => oreum.city === city)
+          .map((oreum) => oreum.subLocation)
+          .filter((district) => district)
+      ),
+    ];
+    return districts.sort();
+  };
+
+  // 지역 및 구역으로 필터링
+  const filterByRegion = (data, city, district) => {
+    let filtered = data;
+    if (city) {
+      filtered = filterByCity(filtered, city);
+    }
+    if (district) {
+      filtered = filtered.filter((oreum) => oreum.subLocation === district);
+    }
+    return filtered;
+  };
 
   // 오름 데이터 로드
   useEffect(() => {
@@ -31,8 +64,9 @@ export default function Home() {
 
       try {
         console.log("🔄 오름 데이터 로딩 시작...");
-        const data = await parseOreumCSV();
+        const data = await parseOreumData();
         setOreumData(data);
+        setStatistics(getStatistics(data));
         console.log(`✅ ${data.length}개 오름 데이터 로드 완료!`);
       } catch (err) {
         console.error("❌ 오름 데이터 로드 실패:", err);
@@ -104,15 +138,15 @@ export default function Home() {
     if (selectedTab === "all") {
       // 모든 구역 표시
       const allDistricts = [];
-      ["제주시", "서귀포시"].forEach((region) => {
-        getDistrictsByRegion(region).forEach((district) => {
-          allDistricts.push({ region, district });
+      ["제주시", "서귀포시"].forEach((city) => {
+        getDistrictsByCity(city).forEach((district) => {
+          allDistricts.push({ region: city, district });
         });
       });
       return allDistricts;
     } else {
       // 선택된 지역의 구역만 표시
-      return getDistrictsByRegion(selectedTab).map((district) => ({
+      return getDistrictsByCity(selectedTab).map((district) => ({
         region: selectedTab,
         district,
       }));
@@ -146,6 +180,15 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>오름모음 - 제주 오름 디지털 도감</title>
+        <meta
+          name="description"
+          content="제주도의 아름다운 오름들을 담은 디지털 도감입니다."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       {/* 헤더 */}
       <header className={styles.header}>
         <div className={styles.headerContent}>
@@ -156,32 +199,6 @@ export default function Home() {
             제주의 {oreumData.length}개 오름을 담은 디지털 도감
           </p>
         </div>
-
-        {/* 네비게이션 */}
-        {currentView === "oreumList" && (
-          <div className={styles.navigation}>
-            <button onClick={handleGoBack} className={styles.backButton}>
-              ← 뒤로가기
-            </button>
-            <div className={styles.breadcrumb}>
-              <span onClick={handleGoHome} style={{ cursor: "pointer" }}>
-                홈
-              </span>
-              {selectedRegion && (
-                <>
-                  <span> › </span>
-                  <span>{selectedRegion}</span>
-                </>
-              )}
-              {selectedDistrict && (
-                <>
-                  <span> › </span>
-                  <span>{selectedDistrict}</span>
-                </>
-              )}
-            </div>
-          </div>
-        )}
       </header>
 
       {/* 메인 콘텐츠 */}
@@ -220,7 +237,6 @@ export default function Home() {
               <div className={styles.districtView}>
                 <h2>
                   {selectedTab === "all" ? "모든 지역" : `${selectedTab} 지역`}{" "}
-                  구역 선택
                 </h2>
                 <div className={styles.districtGrid}>
                   {getDistrictsToShow().map(({ region, district }) => {
@@ -247,9 +263,7 @@ export default function Home() {
                           <h3>
                             {selectedTab === "all" ? (
                               <>
-                                <span className={styles.regionTag}>
-                                  {region}
-                                </span>
+                                {region} <t />
                                 {district}
                               </>
                             ) : (
@@ -286,11 +300,12 @@ export default function Home() {
       </main>
 
       {/* 오름 상세 모달 */}
-      <OreumDetail
-        oreum={selectedOreum}
-        isOpen={!!selectedOreum}
-        onClose={() => setSelectedOreum(null)}
-      />
+      {selectedOreum && (
+        <OreumDetail
+          oreum={selectedOreum}
+          onClose={() => setSelectedOreum(null)}
+        />
+      )}
 
       {/* 푸터 */}
       <footer className={styles.footer}>
@@ -300,24 +315,22 @@ export default function Home() {
             <p>제주의 아름다운 오름을 디지털로 만나다</p>
           </div>
           <div className={styles.footerSection}>
-            <h4>통계</h4>
             <p>총 {oreumData.length}개 오름</p>
-            <p>
-              제주시: {oreumData.filter((o) => o.region === "제주시").length}개
-            </p>
-            <p>
-              서귀포시:{" "}
-              {oreumData.filter((o) => o.region === "서귀포시").length}개
-            </p>
+            {statistics && (
+              <>
+                <p>제주시: {statistics.cityStats["제주시"] || 0}개</p>
+                <p>서귀포시: {statistics.cityStats["서귀포시"] || 0}개</p>
+              </>
+            )}
           </div>
           <div className={styles.footerSection}>
-            <h4>정보</h4>
-            <p>데이터 출처: 제주특별자치도</p>
-            <p>최종 업데이트: 2024년 3월</p>
+            <p>데이터 출처</p>
+            <p>제주특별자치도, 한국관광공사</p>
+            <p>최종 업데이트: 2025년 7월</p>
           </div>
         </div>
         <div className={styles.footerBottom}>
-          <p>&copy; 2024 오름모음. 제주의 자연을 보존합니다.</p>
+          <p>&copy; 2025 오름모음. 제주의 자연을 보존합니다.</p>
         </div>
       </footer>
     </div>

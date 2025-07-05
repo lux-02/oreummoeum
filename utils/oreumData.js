@@ -213,277 +213,154 @@ const generateDescription = (name, type, height, region) => {
 };
 
 // CSV 파싱 함수
-export const parseOreumCSV = async () => {
+export const parseOreumData = async () => {
   try {
-    // 실제 CSV 파일 읽기
     const response = await fetch("/Oreum_list.csv");
     const csvText = await response.text();
 
-    return new Promise((resolve, reject) => {
-      Papa.parse(csvText, {
-        header: true,
-        skipEmptyLines: true,
-        encoding: "UTF-8",
-        complete: (results) => {
-          if (results.errors.length > 0) {
-            console.warn("CSV 파싱 경고:", results.errors);
-          }
-
-          const oreumList = results.data
-            .filter((row) => row.오름명 && row.오름명.trim()) // 빈 행 제거
-            .map((row, index) => {
-              const name = row.오름명?.trim() || "";
-              const region = row.행정시?.trim() || "";
-              const location = row.소재지?.trim() || "";
-              const locationDistrict = row.location?.trim() || ""; // location 컬럼 사용
-              const height = parseInt(row.표고) || 0;
-              const area = parseFloat(row.면적) || 0;
-              const type = row.형태?.trim() || "원추형";
-              const district = normalizeDistrict(locationDistrict, region);
-              const normalizedType = normalizeType(type);
-
-              // 한국관광공사 API 관련 필드
-              const contentId = row.ContentID?.trim() || null;
-              const contentTypeId = row.ContentTypeID?.trim() || null;
-              const firstImage = row.FirstImage?.trim() || null;
-              const firstImage2 = row.FirstImage2?.trim() || null;
-
-              // 이미지 우선순위: FirstImage > 오름 종류별 기본 이미지
-              const image =
-                firstImage ||
-                typeImages[normalizedType] ||
-                typeImages["원추형"];
-
-              return {
-                id: index + 1,
-                name,
-                region,
-                location,
-                height,
-                area,
-                coordinates: generateCoordinates(index + 1, region),
-                description: generateDescription(name, type, height, region),
-                district,
-                type: normalizedType,
-                image,
-                // 한국관광공사 API 관련 정보
-                tourAPI: {
-                  contentId,
-                  contentTypeId,
-                  firstImage,
-                  firstImage2,
-                  hasAPIData: !!(contentId && contentTypeId),
-                },
-              };
-            });
-
-          console.log(
-            `✅ ${oreumList.length}개의 오름 데이터를 성공적으로 로드했습니다.`
-          );
-          resolve(oreumList);
-        },
-        error: (error) => {
-          console.error("CSV 파싱 오류:", error);
-          reject(error);
-        },
-      });
+    const result = Papa.parse(csvText, {
+      header: true,
+      skipEmptyLines: true,
+      transformHeader: (header) => header.trim(),
+      transform: (value) => value.trim(),
     });
+
+    const data = result.data.map((row, index) => ({
+      id: index + 1,
+      name: row["오름명"] || "",
+      city: row["행정시"] || "",
+      location: row["소재지"] || "",
+      subLocation:
+        row["location"] && row["location"] !== "0" ? row["location"] : "",
+      altitude: parseFloat(row["표고"]) || 0,
+      area: parseFloat(row["면적"]) || 0,
+      shape: row["형태"] || "",
+      description: row["Overview"] || "",
+      // 좌표 정보
+      coordinates: {
+        lat: parseFloat(row["MapY"]) || 0,
+        lng: parseFloat(row["MapX"]) || 0,
+      },
+      // 관광공사 API 데이터
+      tourAPI: {
+        contentId: row["ContentID"] || "",
+        contentTypeId: row["ContentTypeID"] || "",
+        firstImage: row["FirstImage"] || "",
+        firstImage2: row["FirstImage2"] || "",
+        hasAPIData: !!(row["ContentID"] && row["ContentID"].trim()),
+      },
+      // 반려동물 정보
+      petInfo: {
+        acmpyTypeCd: row["Pet_acmpyTypeCd"] || "",
+        etcAcmpyInfo: row["Pet_etcAcmpyInfo"] || "",
+        acmpyPsblCpam: row["Pet_acmpyPsblCpam"] || "",
+        acmpyNeedMtr: row["Pet_acmpyNeedMtr"] || "",
+      },
+      // 상세 정보
+      detailInfo: {
+        infocenter: row["Detail_infocenter"] || "",
+        opendate: row["Detail_opendate"] || "",
+        restdate: row["Detail_restdate"] || "",
+        usetime: row["Detail_usetime"] || "",
+        parking: row["Detail_parking"] || "",
+        chkbabycarriage: row["Detail_chkbabycarriage"] || "",
+        chkpet: row["Detail_chkpet"] || "",
+        chkcreditcard: row["Detail_chkcreditcard"] || "",
+      },
+      // 추가 이미지들
+      images: [
+        row["Image_1"],
+        row["Image_2"],
+        row["Image_3"],
+        row["Image_4"],
+        row["Image_5"],
+        row["Image_6"],
+        row["Image_7"],
+        row["Image_8"],
+        row["Image_9"],
+        row["Image_10"],
+      ].filter((img) => img && img.trim()),
+      // 카드 표시용 이미지 (FirstImage 우선, 없으면 기본 이미지)
+      cardImage:
+        row["FirstImage"] ||
+        (row["행정시"] === "제주시"
+          ? `/img/지역별/제주시/제주시_${row["location"] || "동지역"}.jpg`
+          : `/img/지역별/서귀포시/서귀포시_${row["location"] || "동지역"}.jpg`),
+      // 오름 형태별 이미지
+      shapeImage: (() => {
+        const shapeMap = {
+          원추형: "/img/오름 종류/원추형.jpg",
+          말굽형: "/img/오름 종류/말굽형.jpg",
+          복합형: "/img/오름 종류/복합형.jpg",
+          원형: "/img/오름 종류/원형.jpg",
+        };
+        const baseShape = row["형태"] ? row["형태"].split("(")[0] : "";
+        return shapeMap[baseShape] || "/img/오름 종류/원추형.jpg";
+      })(),
+    }));
+
+    return data;
   } catch (error) {
-    console.error("CSV 파일 로드 실패:", error);
-    // 실패 시 기본 샘플 데이터 반환
-    return getSampleOreumData();
+    console.error("CSV 파싱 오류:", error);
+    return [];
   }
 };
 
-// 백업용 샘플 데이터 (CSV 로드 실패 시)
-const getSampleOreumData = () => {
-  return [
-    {
-      id: 1,
-      name: "새별오름",
-      region: "제주시",
-      location: "제주특별자치도 제주시 애월읍 봉성리",
-      height: 519,
-      area: 522216,
-      coordinates: { lat: 33.3615, lng: 126.3512 },
-      description:
-        "새별오름은 제주시 애월읍에 위치한 해발 519m의 복합형 오름으로, 아름다운 일출과 억새밭으로 유명합니다.",
-      district: "애월읍",
-      type: "복합형",
-      image: "/img/오름 종류/복합형.jpg",
-      tourAPI: {
-        contentId: "572973",
-        contentTypeId: "12",
-        firstImage:
-          "http://tong.visitkorea.or.kr/cms/resource/34/2943834_image2_1.bmp",
-        firstImage2:
-          "http://tong.visitkorea.or.kr/cms/resource/34/2943834_image3_1.bmp",
-        hasAPIData: true,
-      },
-    },
-    {
-      id: 2,
-      name: "용눈이오름",
-      region: "제주시",
-      location: "제주특별자치도 제주시 구좌읍 종달리",
-      height: 247,
-      area: 404264,
-      coordinates: { lat: 33.4542, lng: 126.8021 },
-      description:
-        "용눈이오름은 말의 눈처럼 생긴 두 개의 화구호가 있는 독특한 복합형 오름입니다.",
-      district: "구좌읍",
-      type: "복합형",
-      image:
-        "http://tong.visitkorea.or.kr/cms/resource/30/3011830_image2_1.jpg",
-      tourAPI: {
-        contentId: "572960",
-        contentTypeId: "12",
-        firstImage:
-          "http://tong.visitkorea.or.kr/cms/resource/30/3011830_image2_1.jpg",
-        firstImage2:
-          "http://tong.visitkorea.or.kr/cms/resource/30/3011830_image3_1.jpg",
-        hasAPIData: true,
-      },
-    },
-    {
-      id: 3,
-      name: "따라비오름",
-      region: "서귀포시",
-      location: "제주특별자치도 서귀포시 표선면 가시리",
-      height: 342,
-      area: 448111,
-      coordinates: { lat: 33.3123, lng: 126.7234 },
-      description:
-        "따라비오름은 서귀포시 표선면에 위치한 복합형 오름으로 목장과 어우러진 풍경이 아름답습니다.",
-      district: "표선면",
-      type: "복합형",
-      image: "/img/오름 종류/복합형.jpg",
-      tourAPI: {
-        contentId: "572968",
-        contentTypeId: "12",
-        firstImage: null,
-        firstImage2: null,
-        hasAPIData: true,
-      },
-    },
-    {
-      id: 4,
-      name: "성산일출봉",
-      region: "서귀포시",
-      location: "제주특별자치도 서귀포시 성산읍 성산리",
-      height: 179,
-      area: 453030,
-      coordinates: { lat: 33.4583, lng: 126.9425 },
-      description:
-        "성산일출봉은 UNESCO 세계자연유산으로 지정된 제주의 대표적인 관광명소입니다.",
-      district: "성산읍",
-      type: "원형",
-      image:
-        "http://tong.visitkorea.or.kr/cms/resource/36/2839736_image2_1.jpg",
-      tourAPI: {
-        contentId: "2839742",
-        contentTypeId: "39",
-        firstImage:
-          "http://tong.visitkorea.or.kr/cms/resource/36/2839736_image2_1.jpg",
-        firstImage2:
-          "http://tong.visitkorea.or.kr/cms/resource/36/2839736_image3_1.jpg",
-        hasAPIData: true,
-      },
-    },
-    {
-      id: 5,
-      name: "한라산",
-      region: "제주시",
-      location: "제주특별자치도 제주시 해안동",
-      height: 1950,
-      area: 30000000,
-      coordinates: { lat: 33.3617, lng: 126.5292 },
-      description:
-        "한라산은 제주도의 중앙에 위치한 대한민국 최고봉으로, 다양한 생태계를 품고 있습니다.",
-      district: "해안동",
-      type: "원추형",
-      image: "/img/오름 종류/원추형.jpg",
-      tourAPI: {
-        contentId: null,
-        contentTypeId: null,
-        firstImage: null,
-        firstImage2: null,
-        hasAPIData: false,
-      },
-    },
-    {
-      id: 6,
-      name: "산굼부리",
-      region: "제주시",
-      location: "제주특별자치도 제주시 조천읍 교래리",
-      height: 437,
-      area: 574697,
-      coordinates: { lat: 33.3443, lng: 126.7055 },
-      description:
-        "산굼부리는 천연기념물로 지정된 분화구가 완벽하게 보존된 원형 오름입니다.",
-      district: "조천읍",
-      type: "원형",
-      image:
-        "http://tong.visitkorea.or.kr/cms/resource/55/3354255_image2_1.jpg",
-      tourAPI: {
-        contentId: "126474",
-        contentTypeId: "12",
-        firstImage:
-          "http://tong.visitkorea.or.kr/cms/resource/55/3354255_image2_1.jpg",
-        firstImage2:
-          "http://tong.visitkorea.or.kr/cms/resource/55/3354255_image3_1.jpg",
-        hasAPIData: true,
-      },
-    },
-    {
-      id: 7,
-      name: "금오름",
-      region: "제주시",
-      location: "제주특별자치도 제주시 한림읍 금악리",
-      height: 427,
-      area: 613966,
-      coordinates: { lat: 33.3021, lng: 126.4312 },
-      description:
-        "금오름은 화구호가 있는 원형 오름으로 금악리의 상징적인 존재입니다.",
-      district: "한림읍",
-      type: "원형",
-      image:
-        "http://tong.visitkorea.or.kr/cms/resource/35/3352435_image2_1.jpg",
-      tourAPI: {
-        contentId: "129699",
-        contentTypeId: "12",
-        firstImage:
-          "http://tong.visitkorea.or.kr/cms/resource/35/3352435_image2_1.jpg",
-        firstImage2:
-          "http://tong.visitkorea.or.kr/cms/resource/35/3352435_image3_1.jpg",
-        hasAPIData: true,
-      },
-    },
-    {
-      id: 8,
-      name: "당산봉",
-      region: "제주시",
-      location: "제주특별자치도 제주시 한경면 용수리",
-      height: 148,
-      area: 534135,
-      coordinates: { lat: 33.3156, lng: 126.1845 },
-      description:
-        "당산봉은 제주 서부 지역의 대표적인 복합형 오름으로 용수리의 랜드마크입니다.",
-      district: "한경면",
-      type: "복합형",
-      image:
-        "http://tong.visitkorea.or.kr/cms/resource/84/3477884_image2_1.jpg",
-      tourAPI: {
-        contentId: "2704703",
-        contentTypeId: "12",
-        firstImage:
-          "http://tong.visitkorea.or.kr/cms/resource/84/3477884_image2_1.jpg",
-        firstImage2:
-          "http://tong.visitkorea.or.kr/cms/resource/84/3477884_image3_1.jpg",
-        hasAPIData: true,
-      },
-    },
-  ];
+// 필터링 함수들
+export const filterByCity = (data, city) => {
+  if (!city) return data;
+  return data.filter((item) => item.city === city);
+};
+
+export const filterByShape = (data, shape) => {
+  if (!shape) return data;
+  return data.filter((item) => item.shape.includes(shape));
+};
+
+export const searchByName = (data, searchTerm) => {
+  if (!searchTerm) return data;
+  return data.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.location.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+};
+
+export const sortByAltitude = (data, ascending = true) => {
+  return [...data].sort((a, b) =>
+    ascending ? a.altitude - b.altitude : b.altitude - a.altitude
+  );
+};
+
+export const sortByArea = (data, ascending = true) => {
+  return [...data].sort((a, b) =>
+    ascending ? a.area - b.area : b.area - a.area
+  );
+};
+
+// 통계 함수들
+export const getStatistics = (data) => {
+  const totalCount = data.length;
+  const jeju = data.filter((item) => item.city === "제주시").length;
+  const seogwipo = data.filter((item) => item.city === "서귀포시").length;
+
+  const shapeStats = data.reduce((acc, item) => {
+    const baseShape = item.shape.split("(")[0];
+    acc[baseShape] = (acc[baseShape] || 0) + 1;
+    return acc;
+  }, {});
+
+  const avgAltitude =
+    data.reduce((sum, item) => sum + item.altitude, 0) / totalCount;
+  const avgArea = data.reduce((sum, item) => sum + item.area, 0) / totalCount;
+
+  return {
+    totalCount,
+    cityStats: { 제주시: jeju, 서귀포시: seogwipo },
+    shapeStats,
+    avgAltitude: Math.round(avgAltitude * 10) / 10,
+    avgArea: Math.round(avgArea * 10) / 10,
+  };
 };
 
 // 지역별 이미지 가져오기

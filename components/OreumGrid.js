@@ -19,7 +19,7 @@ const OreumGrid = ({ oreumList, onOreumSelect, region, district }) => {
     default: 4,
     1200: 3,
     768: 2,
-    480: 1,
+    480: 2,
   };
 
   return (
@@ -57,7 +57,7 @@ const OreumGrid = ({ oreumList, onOreumSelect, region, district }) => {
           )}
         </div>
 
-        <div className={styles.sortBox}>
+        {/* <div className={styles.sortBox}>
           <label htmlFor="sort">정렬:</label>
           <select
             id="sort"
@@ -66,10 +66,10 @@ const OreumGrid = ({ oreumList, onOreumSelect, region, district }) => {
             className={styles.sortSelect}
           >
             <option value="name">이름순</option>
-            <option value="height">높이순</option>
+            <option value="altitude">높이순</option>
             <option value="area">면적순</option>
           </select>
-        </div>
+        </div> */}
       </div>
 
       {/* 결과가 없을 때 */}
@@ -108,6 +108,16 @@ const OreumCard = ({ oreum, onClick, index }) => {
   const heights = [280, 320, 360, 300, 340];
   const cardHeight = heights[index % heights.length];
 
+  // 이미지 URL 결정 (API 이미지 우선, 없으면 오름 종류 이미지)
+  const getImageUrl = () => {
+    // ContentID가 있고 FirstImage가 있으면 API 이미지 사용
+    if (oreum.tourAPI?.firstImage) {
+      return oreum.tourAPI.firstImage;
+    }
+    // 없으면 오름 종류별 기본 이미지 사용
+    return oreum.shapeImage;
+  };
+
   return (
     <motion.div
       className={styles.oreumCard}
@@ -127,21 +137,21 @@ const OreumCard = ({ oreum, onClick, index }) => {
     >
       {/* 카드 이미지 */}
       <div className={styles.cardImage}>
-        <img src={oreum.image} alt={oreum.name} loading="lazy" />
+        <img src={getImageUrl()} alt={oreum.name} loading="lazy" />
         <div className={styles.imageOverlay}>
-          <span className={styles.typeTag}>{oreum.type}</span>
+          <span className={styles.typeTag}>{oreum.shape}</span>
         </div>
       </div>
 
       {/* 카드 콘텐츠 */}
       <div className={styles.cardContent}>
         <h3 className={styles.oreumName}>{oreum.name}</h3>
-        <p className={styles.oreumLocation}>{oreum.district}</p>
+        <p className={styles.oreumLocation}>{oreum.subLocation}</p>
 
         <div className={styles.oreumMeta}>
           <div className={styles.metaItem}>
             <span className={styles.metaIcon}>🏔️</span>
-            <span className={styles.metaText}>{oreum.height}m</span>
+            <span className={styles.metaText}>{oreum.altitude}m</span>
           </div>
           <div className={styles.metaItem}>
             <span className={styles.metaIcon}>📐</span>
@@ -151,7 +161,10 @@ const OreumCard = ({ oreum, onClick, index }) => {
           </div>
         </div>
 
-        <p className={styles.oreumDescription}>{oreum.description}</p>
+        <p className={styles.oreumDescription}>
+          {oreum.description?.substring(0, 80)}
+          {oreum.description?.length > 80 && "..."}
+        </p>
 
         <div className={styles.cardFooter}>
           <button className={styles.detailButton}>자세히 보기 →</button>

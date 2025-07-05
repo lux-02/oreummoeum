@@ -32,6 +32,7 @@
   flex-direction: column;
   gap: 32px;
   grid-row-start: 2;
+  background-color: var(--white);
 }
 
 .main ol {
@@ -93,6 +94,7 @@ a.secondary {
   grid-row-start: 3;
   display: flex;
   gap: 24px;
+  flex-direction: column;
 }
 
 .footer a {
@@ -127,10 +129,6 @@ a.secondary {
   .page {
     padding: 32px;
     padding-bottom: 80px;
-  }
-
-  .main {
-    align-items: center;
   }
 
   .main ol {
@@ -217,10 +215,10 @@ a.secondary {
   display: flex;
   justify-content: center;
   gap: 0;
-  background: var(--oreum-mist);
+  background: var(--light-gray);
   border-radius: 12px;
   padding: 4px;
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto;
 }
 
@@ -463,7 +461,7 @@ a.secondary {
 
 /* 푸터 */
 .footer {
-  background: var(--gradient-primary);
+  background: var(--dark-gray);
   color: white;
   margin-top: auto;
   padding: 60px 0 40px;
@@ -474,7 +472,6 @@ a.secondary {
   margin: 0 auto;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 40px;
   text-align: center;
 }
@@ -569,7 +566,6 @@ a.secondary {
   }
 
   .tabMenu {
-    max-width: 350px;
     padding: 3px;
   }
 
