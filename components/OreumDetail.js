@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import NaverMap from "./NaverMap";
 import styles from "./OreumDetail.module.css";
 
 const OreumDetail = ({ oreum, onClose }) => {
@@ -548,6 +549,19 @@ const OreumDetail = ({ oreum, onClose }) => {
           ) : null}
         </div>
       </div>
+
+      {/* 지도 영역 */}
+      <div className={styles.mapSection}>
+        <h3>지도</h3>
+        <div className={styles.mapContainer}>
+          <NaverMap
+            oreum={oreum}
+            width="100%"
+            height="400px"
+            className={styles.locationMap}
+          />
+        </div>
+      </div>
     </div>
   );
 
@@ -611,31 +625,35 @@ const OreumDetail = ({ oreum, onClose }) => {
           </div>
 
           <div className={styles.tabContent}>
-            <AnimatePresence mode="wait">
-              {loading ? (
-                <motion.div
-                  key="loading"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className={styles.loading}
+            {loading ? (
+              <div className={styles.loading}>데이터를 불러오는 중...</div>
+            ) : (
+              <>
+                <div
+                  className={`${styles.tabPanel} ${
+                    activeTab === "overview" ? styles.active : styles.hidden
+                  }`}
                 >
-                  데이터를 불러오는 중...
-                </motion.div>
-              ) : (
-                <motion.div
-                  key={activeTab}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.2 }}
+                  <OverviewTab />
+                </div>
+                {hasPhotos() && (
+                  <div
+                    className={`${styles.tabPanel} ${
+                      activeTab === "photos" ? styles.active : styles.hidden
+                    }`}
+                  >
+                    <PhotosTab />
+                  </div>
+                )}
+                <div
+                  className={`${styles.tabPanel} ${
+                    activeTab === "location" ? styles.active : styles.hidden
+                  }`}
                 >
-                  {activeTab === "overview" && <OverviewTab />}
-                  {activeTab === "photos" && hasPhotos() && <PhotosTab />}
-                  {activeTab === "location" && <LocationTab />}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  <LocationTab />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </motion.div>

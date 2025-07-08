@@ -1,0 +1,147 @@
+.container {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map {
+  border-radius: 12px;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: #f8f9fa;
+  color: #666;
+}
+
+.loading p {
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid #007aff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: #fff5f5;
+  color: #e53e3e;
+  text-align: center;
+  padding: 20px;
+}
+
+.error p {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.error span {
+  font-size: 14px;
+  color: #999;
+  max-width: 80%;
+  word-break: break-word;
+}
+
+.mapInfo {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  max-width: calc(100% - 24px);
+}
+
+.coordInfo {
+  font-family: "Monaco", "Menlo", "Consolas", monospace;
+  color: #333;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.sourceInfo {
+  color: #666;
+  font-size: 11px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .mapInfo {
+    bottom: 8px;
+    left: 8px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .coordInfo {
+    font-size: 11px;
+  }
+
+  .sourceInfo {
+    font-size: 10px;
+  }
+}
+
+/* 다크 모드 지원 (선택사항) */
+@media (prefers-color-scheme: dark) {
+  .container {
+    border-color: #333;
+  }
+
+  .loading {
+    background: #1a1a1a;
+    color: #ccc;
+  }
+
+  .spinner {
+    border-color: #333;
+    border-top-color: #007aff;
+  }
+
+  .mapInfo {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .coordInfo {
+    color: #fff;
+  }
+
+  .sourceInfo {
+    color: #ccc;
+  }
+}

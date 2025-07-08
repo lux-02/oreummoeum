@@ -1,0 +1,40 @@
+.container {
+  position: relative;
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.statusBar {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e1e5e9;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status {
+  color: #495057;
+}
+
+.error {
+  color: #dc3545;
+}
+
+.map {
+  background: #ffffff;
+  position: relative;
+}
+
+.debugInfo {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #666;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}

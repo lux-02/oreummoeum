@@ -205,6 +205,32 @@
   max-height: calc(90vh - 200px); /* 헤더와 탭 버튼 높이를 고려한 최대 높이 */
 }
 
+/* 탭 패널 */
+.tabPanel {
+  transition: opacity 0.3s ease;
+  width: 100%;
+  min-height: 400px;
+}
+
+.tabPanel.active {
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+  z-index: 10;
+}
+
+.tabPanel.hidden {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* 크기는 유지하되 보이지만 않음 */
+}
+
 /* 탭 콘텐츠 내부 컨테이너들 */
 .overviewContent,
 .photosContent,
@@ -550,6 +576,87 @@
 }
 
 /* 지도 탭 */
+.locationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.locationInfo {
+  flex-shrink: 0;
+}
+
+.locationInfo h3 {
+  color: var(--earth-brown);
+  font-size: 1.3rem;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+}
+
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  font-weight: 600;
+  color: var(--earth-brown);
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.infoValue {
+  color: var(--dark-gray);
+  text-align: right;
+  flex: 1;
+  font-family: monospace;
+}
+
+.mapSection {
+  flex: 1;
+  min-height: 0;
+}
+
+.mapSection h3 {
+  color: var(--earth-brown);
+  font-size: 1.3rem;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+}
+
+.mapContainer {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e5e9;
+  background: white;
+}
+
+.locationMap {
+  border-radius: 16px;
+}
+
+.detailMap {
+  width: 100%;
+  height: 350px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 .location {
   max-width: 500px;
   margin: 0 auto;
@@ -710,6 +817,28 @@
     padding: 12px;
     font-size: 0.85rem;
   }
+
+  .locationContent {
+    gap: 20px;
+  }
+
+  .mapContainer {
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .detailMap {
+    height: 280px;
+  }
+
+  .infoLabel {
+    min-width: 70px;
+    font-size: 0.9rem;
+  }
+
+  .infoValue {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -731,6 +860,22 @@
 
   .loadingSpinner {
     font-size: 2.5rem;
+  }
+
+  .detailMap {
+    height: 250px;
+  }
+
+  .locationContent {
+    gap: 16px;
+  }
+
+  .infoLabel {
+    font-size: 0.85rem;
+  }
+
+  .infoValue {
+    font-size: 0.8rem;
   }
 }
 

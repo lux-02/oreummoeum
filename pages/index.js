@@ -263,8 +263,7 @@ export default function Home() {
                           <h3>
                             {selectedTab === "all" ? (
                               <>
-                                {region} <t />
-                                {district}
+                                {region} {district}
                               </>
                             ) : (
                               district
