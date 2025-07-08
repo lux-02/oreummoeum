@@ -83,6 +83,13 @@ export default function TestMapPage() {
   const [selectedOreum, setSelectedOreum] = useState(testOreumData[0]);
   const [isMapVisible, setIsMapVisible] = useState(true);
 
+  // 형태명에서 괄호와 그 안의 내용 제거
+  const getCleanShapeName = (shape) => {
+    if (!shape) return "";
+    // 괄호와 그 안의 내용을 제거 (예: "말굽형(서향)" → "말굽형")
+    return shape.replace(/\(.*?\)/g, "").trim();
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -161,7 +168,7 @@ export default function TestMapPage() {
                 : "❌ 없음 (Geocoding 필요)"}
             </p>
             <p>
-              <strong>형태:</strong> {selectedOreum.shape}
+              <strong>형태:</strong> {getCleanShapeName(selectedOreum.shape)}
             </p>
           </div>
         </div>

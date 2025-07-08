@@ -14,6 +14,13 @@ const OreumDetail = ({ oreum, onClose }) => {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragEnd, setDragEnd] = useState({ x: 0, y: 0 });
 
+  // 형태명에서 괄호와 그 안의 내용 제거
+  const getCleanShapeName = (shape) => {
+    if (!shape) return "";
+    // 괄호와 그 안의 내용을 제거 (예: "말굽형(서향)" → "말굽형")
+    return shape.replace(/\(.*?\)/g, "").trim();
+  };
+
   useEffect(() => {
     if (oreum) {
       setLoading(false);

@@ -40,9 +40,7 @@ const OreumGrid = ({
           >
             {region} {district && `› ${district}`}
           </h2>
-          <p className={styles.count}>
-            총 {filteredAndSortedOreums.length}개의 오름
-          </p>
+          <p className={styles.count}>{filteredAndSortedOreums.length}</p>
         </div>
       </div>
 
@@ -85,7 +83,6 @@ const OreumGrid = ({
       {/* 결과가 없을 때 */}
       {filteredAndSortedOreums.length === 0 && (
         <div className={styles.noResults}>
-          <span>🔍</span>
           <h3>검색 결과가 없습니다</h3>
           <p>다른 검색어를 시도해보세요</p>
         </div>
@@ -115,7 +112,7 @@ const OreumGrid = ({
 // 개별 오름 카드 컴포넌트
 const OreumCard = ({ oreum, onClick, index }) => {
   // 카드 높이 변형 (Masonry 효과)
-  const heights = [280, 320, 360, 300, 340];
+  const heights = [360];
   const cardHeight = heights[index % heights.length];
 
   // 이미지 URL 결정 (API 이미지 우선, 없으면 오름 종류 이미지)
@@ -126,6 +123,13 @@ const OreumCard = ({ oreum, onClick, index }) => {
     }
     // 없으면 오름 종류별 기본 이미지 사용
     return oreum.shapeImage;
+  };
+
+  // 형태명에서 괄호와 그 안의 내용 제거
+  const getCleanShapeName = (shape) => {
+    if (!shape) return "";
+    // 괄호와 그 안의 내용을 제거 (예: "말굽형(서향)" → "말굽형")
+    return shape.replace(/\(.*?\)/g, "").trim();
   };
 
   return (
@@ -148,35 +152,26 @@ const OreumCard = ({ oreum, onClick, index }) => {
       {/* 카드 이미지 */}
       <div className={styles.cardImage}>
         <img src={getImageUrl()} alt={oreum.name} loading="lazy" />
+        <div className={styles.imageOverlayLeft}>
+          <span className={styles.typeTag}>
+            {getCleanShapeName(oreum.shape)}
+          </span>
+        </div>
         <div className={styles.imageOverlay}>
-          <span className={styles.typeTag}>{oreum.shape}</span>
+          <span className={styles.typeTag}>{oreum.id}</span>
+        </div>
+        <div className={styles.imageOverlayBottomLeft}>
+          <span className={styles.metaText}>{oreum.altitude}m</span>
+          <span className={styles.metaText}>
+            {(oreum.area / 10000).toFixed(1)}ha
+          </span>
         </div>
       </div>
 
       {/* 카드 콘텐츠 */}
       <div className={styles.cardContent}>
         <h3 className={styles.oreumName}>{oreum.name}</h3>
-        <p className={styles.oreumLocation}>
-          {oreum.city} {oreum.subLocation}
-        </p>
-
-        <div className={styles.oreumMeta}>
-          <div className={styles.metaItem}>
-            <span className={styles.metaIcon}>🏔️</span>
-            <span className={styles.metaText}>{oreum.altitude}m</span>
-          </div>
-          <div className={styles.metaItem}>
-            <span className={styles.metaIcon}>📐</span>
-            <span className={styles.metaText}>
-              {(oreum.area / 10000).toFixed(1)}ha
-            </span>
-          </div>
-        </div>
-
-        <p className={styles.oreumDescription}>
-          {oreum.description?.substring(0, 80)}
-          {oreum.description?.length > 80 && "..."}
-        </p>
+        <p className={styles.oreumLocation}>{oreum.location}</p>
 
         <div className={styles.cardFooter}>
           <button className={styles.detailButton}>자세히 보기 →</button>

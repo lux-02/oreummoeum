@@ -205,6 +205,15 @@
   max-height: calc(90vh - 200px); /* 헤더와 탭 버튼 높이를 고려한 최대 높이 */
 }
 
+.tabContent:-webkit-scrollbar {
+  display: none;
+}
+
+.tabContent {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
 /* 탭 패널 */
 .tabPanel {
   transition: opacity 0.3s ease;
@@ -726,8 +735,9 @@
   }
 
   .modal {
-    max-height: 95vh;
+    max-height: 80vh;
     border-radius: 16px;
+    max-width: 340px;
   }
 
   .header {

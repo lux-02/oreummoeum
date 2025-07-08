@@ -10,6 +10,13 @@ const SimpleNaverMap = ({ oreum, width = "100%", height = "400px" }) => {
   const [status, setStatus] = useState("초기화 중...");
   const [error, setError] = useState(null);
 
+  // 형태명에서 괄호와 그 안의 내용 제거
+  const getCleanShapeName = (shape) => {
+    if (!shape) return "";
+    // 괄호와 그 안의 내용을 제거 (예: "말굽형(서향)" → "말굽형")
+    return shape.replace(/\(.*?\)/g, "").trim();
+  };
+
   console.log("🚀 SimpleNaverMap 렌더링 시작:", oreum?.name);
 
   useEffect(() => {
@@ -222,7 +229,7 @@ const SimpleNaverMap = ({ oreum, width = "100%", height = "400px" }) => {
                 <strong>높이:</strong> ${oreum.altitude}m
               </p>
               <p style="margin: 2px 0; font-size: 12px; color: #666;">
-                <strong>형태:</strong> ${oreum.shape}
+                <strong>형태:</strong> ${getCleanShapeName(oreum.shape)}
               </p>
               <p style="margin: 2px 0; font-size: 12px; color: #666;">
                 <strong>위치:</strong> ${oreum.city}

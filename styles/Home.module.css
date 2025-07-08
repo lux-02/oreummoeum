@@ -32,7 +32,7 @@
   flex-direction: column;
   gap: 32px;
   grid-row-start: 2;
-  background-color: var(--white);
+  background-color: var(--moss-green);
 }
 
 .main ol {
@@ -168,17 +168,17 @@ a.secondary {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--white);
+  background: var(--moss-green);
 }
 
 /* 헤더 */
 .header {
   background: var(--moss-green);
-  box-shadow: var(--shadow-soft);
   position: sticky;
   top: 0;
   z-index: 100;
   padding: 20px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .headerContent {
@@ -356,10 +356,9 @@ a.secondary {
   text-align: center;
 }
 
-/* 지역 헤더 (제목 + 드롭다운) */
+/* 지역 헤더 (제목 + 드롭다운 + 검색) */
 .regionHeader {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
@@ -372,6 +371,17 @@ a.secondary {
   color: var(--earth-brown);
   margin: 0;
   font-weight: 600;
+  flex: 1;
+}
+
+/* 헤더 우측 컨트롤 (드롭다운 + 검색) */
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
 }
 
 /* 드롭다운 컨테이너 */
@@ -386,7 +396,7 @@ a.secondary {
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  color: var(--earth-brown);
+  color: var(--white);
   border: none;
   font-size: 1.2rem;
   font-weight: 600;
@@ -397,6 +407,12 @@ a.secondary {
 
 .dropdownButton:hover {
   transform: translateY(-2px);
+}
+
+.dropdownText {
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--white);
 }
 
 /* 드롭다운 아이콘 */
@@ -475,6 +491,200 @@ a.secondary {
 
 .dropdownOption svg {
   color: #48bb78;
+}
+
+/* 검색 컨테이너 */
+.searchContainer {
+  position: relative;
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* 검색 아이콘 */
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  color: #a0aec0;
+  z-index: 1;
+}
+
+/* 검색 입력창 */
+.searchInput {
+  width: 300px;
+  padding: 12px 16px 12px 44px;
+  border: 2px solid var(--white);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--white);
+  background: var(--moss-green);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.searchInput:focus {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.searchInput::placeholder {
+  color: var(--white);
+  font-size: 0.9rem;
+}
+
+/* 검색 클리어 버튼 */
+.clearButton {
+  position: absolute;
+  right: 8px;
+  padding: 6px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: #a0aec0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearButton:hover {
+  background: rgba(160, 174, 192, 0.1);
+  color: #667eea;
+}
+
+/* 드롭다운 버튼 비활성화 스타일 */
+.dropdownButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dropdownButton:disabled:hover {
+  transform: none;
+}
+
+/* 검색 결과 */
+.searchResults {
+  margin-top: 30px;
+}
+
+/* 검색 결과 없음 */
+.noResults {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--white);
+}
+
+.noResultsIcon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+
+.noResults h3 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.noResults p {
+  font-size: 1rem;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+.clearSearchButton {
+  background: var(--white);
+  color: var(--moss-green);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clearSearchButton:hover {
+  transform: translateY(-2px);
+}
+
+/* 오름 그리드 (검색 결과) */
+.oreumGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* 오름 카드 (검색 결과) */
+.oreumCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.oreumCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.oreumImage {
+  height: 180px;
+  overflow: hidden;
+}
+
+.oreumImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.oreumCard:hover .oreumImage img {
+  transform: scale(1.05);
+}
+
+.oreumInfo {
+  padding: 20px;
+}
+
+.oreumInfo h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--earth-brown);
+  margin: 0 0 8px 0;
+}
+
+.oreumLocation {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0 0 12px 0;
+  font-weight: 500;
+}
+
+.oreumMeta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  justify-content: space-around;
+}
+
+.oreumMeta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .districtGrid {
@@ -571,8 +781,9 @@ a.secondary {
 .footer {
   background: var(--moss-green);
   color: white;
-  margin-top: auto;
+  margin-top: 60px;
   padding: 60px 0 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .footerContent {
@@ -614,7 +825,7 @@ a.secondary {
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .header {
-    padding: 15px 0;
+    padding: 20px 0;
   }
 
   .headerContent h1 {
@@ -654,17 +865,40 @@ a.secondary {
   }
 
   .regionHeader {
+    flex-direction: column;
     gap: 15px;
     margin-bottom: 30px;
   }
 
   .regionHeader h2 {
     font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .headerControls {
+    gap: 12px;
   }
 
   .dropdownButton {
     padding: 10px 16px;
     min-width: 90px;
+  }
+
+  .searchInput {
+    width: 240px;
+    font-size: 0.9rem;
+    padding: 10px 14px 10px 38px;
+  }
+
+  .searchIcon {
+    left: 10px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .oreumGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
   }
 
   .districtGrid {
@@ -706,7 +940,6 @@ a.secondary {
   }
 
   .headerContent h1 {
-    font-family: "Moirai One", system-ui;
     font-size: 1.8rem;
     font-weight: 400;
   }
@@ -729,21 +962,63 @@ a.secondary {
   }
 
   .regionHeader {
+    flex-direction: column;
     gap: 12px;
     margin-bottom: 25px;
   }
 
   .regionHeader h2 {
     font-size: 1.4rem;
+    text-align: center;
   }
 
   .dropdownButton {
+    font-size: 0.85rem;
     padding: 8px 14px;
     min-width: 80px;
+    font-weight: bold;
   }
 
   .dropdownMenu {
     min-width: 120px;
+  }
+
+  .searchInput {
+    width: 100%;
+    max-width: 280px;
+    font-size: 0.85rem;
+    padding: 8px 12px 8px 36px;
+  }
+
+  .searchIcon {
+    left: 8px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .oreumGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .oreumCard {
+    border-radius: 12px;
+  }
+
+  .oreumImage {
+    height: 160px;
+  }
+
+  .oreumInfo {
+    padding: 16px;
+  }
+
+  .oreumInfo h3 {
+    font-size: 1.1rem;
+  }
+
+  .oreumMeta {
+    font-size: 0.8rem;
   }
 
   .districtCard {

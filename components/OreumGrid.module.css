@@ -13,25 +13,28 @@
 
 .headerContent {
   padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .title {
   font-size: 2rem;
-  color: var(--earth-brown);
-  margin-bottom: 10px;
+  color: var(--white);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .title:hover {
-  color: var(--moss-green);
+  color: var(--white);
   transform: scale(1.02);
 }
 
 .count {
   font-size: 1.1rem;
-  color: var(--mist-blue-gray);
+  color: var(--white);
   margin: 0;
 }
 
@@ -65,19 +68,23 @@
 .searchInput {
   width: 100%;
   padding: 12px 15px 12px 45px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid var(--white);
   border-radius: 25px;
   font-size: 1rem;
-  background: white;
+  background: var(--moss-green);
   transition: all 0.3s ease;
   box-sizing: border-box;
-  color: var(--earth-brown);
+  color: var(--white);
 }
 
 .searchInput:focus {
   outline: none;
-  border-color: var(--moss-green);
+  border-color: var(--white);
   box-shadow: 0 0 0 3px rgba(139, 90, 60, 0.1);
+}
+
+.searchInput::placeholder {
+  color: var(--white);
 }
 
 .clearButton {
@@ -132,7 +139,7 @@
 .noResults {
   text-align: center;
   padding: 80px 20px;
-  color: var(--mist-blue-gray);
+  color: var(--white);
 }
 
 .noResults span {
@@ -143,7 +150,7 @@
 
 .noResults h3 {
   font-size: 1.5rem;
-  color: var(--earth-brown);
+  color: var(--white);
   margin-bottom: 10px;
 }
 
@@ -160,7 +167,7 @@
 }
 
 .masonryColumn {
-  padding-left: 20px;
+  padding: 0 10px;
   background-clip: padding-box;
 }
 
@@ -170,7 +177,7 @@
   border-radius: 20px;
   overflow: hidden;
   box-shadow: var(--shadow-soft);
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -206,9 +213,23 @@
   right: 15px;
 }
 
+.imageOverlayLeft {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.imageOverlayBottomLeft {
+  position: absolute;
+  bottom: 15px;
+  display: flex;
+  gap: 10px;
+  margin-left: 15px;
+}
+
 .typeTag {
-  background: var(--white);
-  color: var(--earth-brown);
+  background: var(--light-gray);
+  color: var(--moss-green);
   padding: 6px 12px;
   border-radius: 15px;
   font-size: 0.8rem;
@@ -261,9 +282,22 @@
 }
 
 .metaText {
+  background: var(--white);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 15px;
   font-size: 0.8rem;
-  color: var(--earth-brown);
-  font-weight: 500;
+  font-weight: 600;
+  backdrop-filter: blur(2px);
+
+  /* 글래스모피즘 효과 */
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
 }
 
 .oreumDescription {
@@ -339,13 +373,9 @@
     margin-left: -10px;
   }
 
-  .masonryColumn {
-    padding-left: 10px;
-  }
-
   .oreumCard {
-    margin-bottom: 15px;
     border-radius: 15px;
+    min-height: 300px !important;
   }
 
   .cardImage {

@@ -23,6 +23,17 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [statistics, setStatistics] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [searchTimeout, setSearchTimeout] = useState(null);
+
+  // 형태명에서 괄호와 그 안의 내용 제거
+  const getCleanShapeName = (shape) => {
+    if (!shape) return "";
+    // 괄호와 그 안의 내용을 제거 (예: "말굽형(서향)" → "말굽형")
+    return shape.replace(/\(.*?\)/g, "").trim();
+  };
 
   // 지역별 이미지 맵핑
   const getRegionImage = (city, district) => {
@@ -93,6 +104,15 @@ export default function Home() {
     };
   }, [isDropdownOpen]);
 
+  // 컴포넌트 언마운트 시 검색 타이머 정리
+  useEffect(() => {
+    return () => {
+      if (searchTimeout) {
+        clearTimeout(searchTimeout);
+      }
+    };
+  }, [searchTimeout]);
+
   // 지역/구역 선택 시 필터링
   useEffect(() => {
     if (selectedRegion && oreumData.length > 0) {
@@ -128,6 +148,57 @@ export default function Home() {
   const handleClickOutside = (e) => {
     if (!e.target.closest(".regionDropdown")) {
       setIsDropdownOpen(false);
+    }
+  };
+
+  // 오름 검색 로직
+  const searchOreums = (query) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      setIsSearchActive(false);
+      return;
+    }
+
+    const lowerQuery = query.toLowerCase().trim();
+    const results = oreumData.filter((oreum) => {
+      return (
+        oreum.name.toLowerCase().includes(lowerQuery) ||
+        oreum.location.toLowerCase().includes(lowerQuery) ||
+        oreum.city.toLowerCase().includes(lowerQuery) ||
+        (oreum.subLocation &&
+          oreum.subLocation.toLowerCase().includes(lowerQuery))
+      );
+    });
+
+    setSearchResults(results);
+    setIsSearchActive(true);
+    console.log(`🔍 "${query}" 검색 결과: ${results.length}개`);
+  };
+
+  // 검색어 변경 핸들러
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    // 디바운싱을 위한 타이머 설정
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+
+    const timeout = setTimeout(() => {
+      searchOreums(query);
+    }, 300);
+
+    setSearchTimeout(timeout);
+  };
+
+  // 검색 클리어
+  const clearSearch = () => {
+    setSearchQuery("");
+    setSearchResults([]);
+    setIsSearchActive(false);
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
     }
   };
 
@@ -241,109 +312,236 @@ export default function Home() {
             >
               {/* 구역 목록 */}
               <div className={styles.districtView}>
-                {/* 지역 헤더 with 드롭다운 */}
+                {/* 지역 헤더 with 드롭다운 & 검색 */}
                 <div className={styles.regionHeader}>
-                  <div className={`${styles.regionDropdown} regionDropdown`}>
-                    <button
-                      className={styles.dropdownButton}
-                      onClick={toggleDropdown}
-                    >
-                      <span>
-                        {selectedTab === "all" ? "모든 지역" : selectedTab}
-                      </span>
-                      <svg
-                        className={`${styles.dropdownIcon} ${
-                          isDropdownOpen ? styles.open : ""
-                        }`}
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
+                  <div className={styles.headerControls}>
+                    {/* 지역 드롭다운 */}
+                    <div className={`${styles.regionDropdown} regionDropdown`}>
+                      <button
+                        className={styles.dropdownButton}
+                        onClick={toggleDropdown}
+                        disabled={isSearchActive}
                       >
-                        <path
-                          d="M7 10l5 5 5-5"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </button>
+                        <span className={styles.dropdownText}>
+                          {selectedTab === "all" ? "모든 지역" : selectedTab}
+                        </span>
+                        <svg
+                          className={`${styles.dropdownIcon} ${
+                            isDropdownOpen ? styles.open : ""
+                          }`}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                        >
+                          <path
+                            d="M7 10l5 5 5-5"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
 
-                    {isDropdownOpen && (
-                      <div className={styles.dropdownMenu}>
-                        {[
-                          { key: "all", label: "모든 지역" },
-                          { key: "제주시", label: "제주시" },
-                          { key: "서귀포시", label: "서귀포시" },
-                        ].map((option) => (
+                      {isDropdownOpen && !isSearchActive && (
+                        <div className={styles.dropdownMenu}>
+                          {[
+                            { key: "all", label: "모든 지역" },
+                            { key: "제주시", label: "제주시" },
+                            { key: "서귀포시", label: "서귀포시" },
+                          ].map((option) => (
+                            <button
+                              key={option.key}
+                              className={`${styles.dropdownOption} ${
+                                selectedTab === option.key ? styles.active : ""
+                              }`}
+                              onClick={() => handleTabSelect(option.key)}
+                            >
+                              <span>{option.label}</span>
+                              {selectedTab === option.key && (
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                >
+                                  <path
+                                    d="M20 6L9 17l-5-5"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 오름 검색창 */}
+                    <div className={styles.searchContainer}>
+                      <div className={styles.searchInputWrapper}>
+                        <svg
+                          className={styles.searchIcon}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                        >
+                          <circle
+                            cx="11"
+                            cy="11"
+                            r="8"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          />
+                          <path
+                            d="m21 21-4.35-4.35"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          />
+                        </svg>
+                        <input
+                          type="text"
+                          placeholder="오름 이름, 지역으로 검색..."
+                          value={searchQuery}
+                          onChange={handleSearchChange}
+                          className={styles.searchInput}
+                        />
+                        {searchQuery && (
                           <button
-                            key={option.key}
-                            className={`${styles.dropdownOption} ${
-                              selectedTab === option.key ? styles.active : ""
-                            }`}
-                            onClick={() => handleTabSelect(option.key)}
+                            className={styles.clearButton}
+                            onClick={clearSearch}
                           >
-                            <span>{option.label}</span>
-                            {selectedTab === option.key && (
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                              >
-                                <path
-                                  d="M20 6L9 17l-5-5"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            )}
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                            >
+                              <line
+                                x1="18"
+                                y1="6"
+                                x2="6"
+                                y2="18"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              />
+                              <line
+                                x1="6"
+                                y1="6"
+                                x2="18"
+                                y2="18"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              />
+                            </svg>
                           </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* 검색 결과 or 지역 카드 */}
+                {isSearchActive ? (
+                  /* 검색 결과 */
+                  <div className={styles.searchResults}>
+                    {searchResults.length === 0 ? (
+                      <div className={styles.noResults}>
+                        <h3>검색 결과가 없습니다</h3>
+                        <p>
+                          "{searchQuery}"와 일치하는 오름을 찾을 수 없습니다.
+                        </p>
+                        <button
+                          className={styles.clearSearchButton}
+                          onClick={clearSearch}
+                        >
+                          전체 보기
+                        </button>
+                      </div>
+                    ) : (
+                      <div className={styles.oreumGrid}>
+                        {searchResults.map((oreum) => (
+                          <motion.div
+                            key={oreum.id}
+                            className={styles.oreumCard}
+                            onClick={() => handleOreumSelect(oreum)}
+                            whileHover={{ scale: 1.02, y: -5 }}
+                            whileTap={{ scale: 0.98 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <div className={styles.oreumImage}>
+                              <img
+                                src={
+                                  oreum.shapeImage ||
+                                  "/img/오름 종류/원추형.jpg"
+                                }
+                                alt={oreum.name}
+                                onError={(e) => {
+                                  e.target.src = "/img/오름 종류/원추형.jpg";
+                                }}
+                              />
+                            </div>
+                            <div className={styles.oreumInfo}>
+                              <h3>{oreum.name}</h3>
+                              <p className={styles.oreumLocation}>
+                                {oreum.city} · {oreum.subLocation}
+                              </p>
+                              <div className={styles.oreumMeta}>
+                                <span>⛰️ {oreum.altitude}m</span>
+                                <span>🏞️ {getCleanShapeName(oreum.shape)}</span>
+                              </div>
+                            </div>
+                          </motion.div>
                         ))}
                       </div>
                     )}
                   </div>
-                </div>
-                <div className={styles.districtGrid}>
-                  {getDistrictsToShow().map(({ region, district }) => {
-                    const districtOreumCount = filterByRegion(
-                      oreumData,
-                      region,
-                      district
-                    ).length;
-                    return (
-                      <motion.div
-                        key={`${region}-${district}`}
-                        className={styles.districtCard}
-                        onClick={() => handleDistrictSelect(region, district)}
-                        whileHover={{ scale: 1.02, y: -5 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <div className={styles.districtImage}>
-                          <img
-                            src={getRegionImage(region, district)}
-                            alt={`${region} ${district}`}
-                          />
-                        </div>
-                        <div className={styles.districtInfo}>
-                          <h3>
-                            {selectedTab === "all" ? (
-                              <>
-                                {region} {district}
-                              </>
-                            ) : (
-                              district
-                            )}
-                          </h3>
-                          <p>{districtOreumCount}개 오름</p>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+                ) : (
+                  /* 지역 카드 */
+                  <div className={styles.districtGrid}>
+                    {getDistrictsToShow().map(({ region, district }) => {
+                      const districtOreumCount = filterByRegion(
+                        oreumData,
+                        region,
+                        district
+                      ).length;
+                      return (
+                        <motion.div
+                          key={`${region}-${district}`}
+                          className={styles.districtCard}
+                          onClick={() => handleDistrictSelect(region, district)}
+                          whileHover={{ scale: 1.02, y: -5 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <div className={styles.districtImage}>
+                            <img
+                              src={getRegionImage(region, district)}
+                              alt={`${region} ${district}`}
+                            />
+                          </div>
+                          <div className={styles.districtInfo}>
+                            <h3>
+                              {selectedTab === "all" ? (
+                                <>
+                                  {region} {district}
+                                </>
+                              ) : (
+                                district
+                              )}
+                            </h3>
+                            <p>{districtOreumCount}개 오름</p>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

@@ -16,6 +16,13 @@ const NaverMap = ({
   const [status, setStatus] = useState("초기화 중...");
   const [error, setError] = useState(null);
 
+  // 형태명에서 괄호와 그 안의 내용 제거
+  const getCleanShapeName = (shape) => {
+    if (!shape) return "";
+    // 괄호와 그 안의 내용을 제거 (예: "말굽형(서향)" → "말굽형")
+    return shape.replace(/\(.*?\)/g, "").trim();
+  };
+
   console.log("🚀 NaverMap 렌더링 시작:", oreum?.name);
 
   useEffect(() => {
@@ -283,9 +290,9 @@ const NaverMap = ({
                 ">
                   <div style="font-size: 20px; color: #667eea;">🏞️</div>
                   <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">형태</div>
-                  <div style="font-size: 14px; font-weight: bold; color: #2c3e50;">${
+                  <div style="font-size: 14px; font-weight: bold; color: #2c3e50;">${getCleanShapeName(
                     oreum.shape
-                  }</div>
+                  )}</div>
                 </div>
               </div>
               
@@ -296,9 +303,9 @@ const NaverMap = ({
                 text-align: center;
               ">
                 <div style="font-size: 11px; color: #adb5bd; margin-bottom: 4px;">
-                  📍 ${coordinates.lat.toFixed(6)}, ${coordinates.lng.toFixed(
+                  ${oreum.location} ${coordinates.lat.toFixed(
             6
-          )}
+          )}, ${coordinates.lng.toFixed(6)} 
                 </div>
                 <div style="font-size: 10px; color: ${
                   coordinates.source === "geocoding"

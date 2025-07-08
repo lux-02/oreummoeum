@@ -45,8 +45,17 @@ body {
   overflow-x: hidden;
   font-family: var(--font-primary);
   color: var(--dark-gray);
-  background: linear-gradient(180deg, #f8f6f0 0%, #fffef8 100%);
+  background: var(--moss-green);
   line-height: 1.6;
+}
+
+body:-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
 }
 
 body {
@@ -73,19 +82,20 @@ a {
 /* 스크롤바 스타일링 */
 ::-webkit-scrollbar {
   width: 8px;
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--moss-green);
+  background: var(--earth-brown);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--moss-green);
+  background: var(--earth-brown);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--moss-green);
+  background: var(--earth-brown);
 }
 
 /* 공통 애니메이션 */
