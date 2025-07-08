@@ -22,6 +22,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [statistics, setStatistics] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // 지역별 이미지 맵핑
   const getRegionImage = (city, district) => {
@@ -79,6 +80,19 @@ export default function Home() {
     loadOreumData();
   }, []);
 
+  // 드롭다운 외부 클릭 감지
+  useEffect(() => {
+    if (isDropdownOpen) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   // 지역/구역 선택 시 필터링
   useEffect(() => {
     if (selectedRegion && oreumData.length > 0) {
@@ -89,7 +103,7 @@ export default function Home() {
       );
       setFilteredOreumData(filtered);
       console.log(
-        `📍 ${selectedRegion} ${selectedDistrict || "전체"}: ${
+        `📍 ${selectedRegion} ${selectedDistrict || "모든 지역"}: ${
           filtered.length
         }개 오름`
       );
@@ -102,6 +116,19 @@ export default function Home() {
     setSelectedRegion(null);
     setSelectedDistrict(null);
     setCurrentView("main");
+    setIsDropdownOpen(false); // 드롭다운 닫기
+  };
+
+  // 드롭다운 토글
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  // 드롭다운 외부 클릭 시 닫기
+  const handleClickOutside = (e) => {
+    if (!e.target.closest(".regionDropdown")) {
+      setIsDropdownOpen(false);
+    }
   };
 
   // 구/읍/면 선택 핸들러
@@ -212,32 +239,74 @@ export default function Home() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
             >
-              {/* 탭 메뉴 */}
-              <div className={styles.tabContainer}>
-                <div className={styles.tabMenu}>
-                  {[
-                    { key: "all", label: "All" },
-                    { key: "제주시", label: "제주시" },
-                    { key: "서귀포시", label: "서귀포시" },
-                  ].map((tab) => (
-                    <button
-                      key={tab.key}
-                      className={`${styles.tab} ${
-                        selectedTab === tab.key ? styles.activeTab : ""
-                      }`}
-                      onClick={() => handleTabSelect(tab.key)}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* 구역 목록 */}
               <div className={styles.districtView}>
-                <h2>
-                  {selectedTab === "all" ? "모든 지역" : `${selectedTab} 지역`}{" "}
-                </h2>
+                {/* 지역 헤더 with 드롭다운 */}
+                <div className={styles.regionHeader}>
+                  <div className={`${styles.regionDropdown} regionDropdown`}>
+                    <button
+                      className={styles.dropdownButton}
+                      onClick={toggleDropdown}
+                    >
+                      <span>
+                        {selectedTab === "all" ? "모든 지역" : selectedTab}
+                      </span>
+                      <svg
+                        className={`${styles.dropdownIcon} ${
+                          isDropdownOpen ? styles.open : ""
+                        }`}
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M7 10l5 5 5-5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+
+                    {isDropdownOpen && (
+                      <div className={styles.dropdownMenu}>
+                        {[
+                          { key: "all", label: "모든 지역" },
+                          { key: "제주시", label: "제주시" },
+                          { key: "서귀포시", label: "서귀포시" },
+                        ].map((option) => (
+                          <button
+                            key={option.key}
+                            className={`${styles.dropdownOption} ${
+                              selectedTab === option.key ? styles.active : ""
+                            }`}
+                            onClick={() => handleTabSelect(option.key)}
+                          >
+                            <span>{option.label}</span>
+                            {selectedTab === option.key && (
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                              >
+                                <path
+                                  d="M20 6L9 17l-5-5"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
                 <div className={styles.districtGrid}>
                   {getDistrictsToShow().map(({ region, district }) => {
                     const districtOreumCount = filterByRegion(
