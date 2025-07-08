@@ -607,6 +607,11 @@
   margin-bottom: 8px;
 }
 
+.title,
+.subtitle {
+  font-family: "Diphylleia", system-ui;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .overlay {

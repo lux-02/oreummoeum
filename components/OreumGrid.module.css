@@ -20,6 +20,13 @@
   color: var(--earth-brown);
   margin-bottom: 10px;
   font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.title:hover {
+  color: var(--moss-green);
+  transform: scale(1.02);
 }
 
 .count {
@@ -219,10 +226,11 @@
 }
 
 .oreumName {
+  font-family: "Diphylleia", system-ui;
+  font-weight: bold;
   font-size: 1.3rem;
   color: var(--earth-brown);
   margin-bottom: 8px;
-  font-weight: 600;
   line-height: 1.3;
 }
 

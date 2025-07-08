@@ -193,7 +193,7 @@ export default function Home() {
       <header className={styles.header}>
         <div className={styles.headerContent}>
           <h1 onClick={handleGoHome} style={{ cursor: "pointer" }}>
-            🌋 오름모음
+            오름모음
           </h1>
           <p className={styles.subtitle}>
             제주의 {oreumData.length}개 오름을 담은 디지털 도감
@@ -291,6 +291,7 @@ export default function Home() {
               <OreumGrid
                 oreumList={filteredOreumData}
                 onOreumSelect={handleOreumSelect}
+                onGoHome={handleGoHome}
                 region={selectedRegion}
                 district={selectedDistrict}
               />

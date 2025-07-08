@@ -91,6 +91,7 @@ a.secondary {
 }
 
 .footer {
+  font-family: "Diphylleia", system-ui;
   grid-row-start: 3;
   display: flex;
   gap: 24px;
@@ -167,7 +168,7 @@ a.secondary {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #f8f6f0 0%, #fffef8 100%);
+  background: var(--white);
 }
 
 /* 헤더 */
@@ -188,10 +189,11 @@ a.secondary {
 }
 
 .headerContent h1 {
+  font-family: "Diphylleia", system-ui;
   font-size: 2.5rem;
   color: var(--earth-brown);
   margin-bottom: 8px;
-  font-weight: 700;
+  font-weight: 400;
   transition: all 0.3s ease;
 }
 
@@ -201,6 +203,7 @@ a.secondary {
 }
 
 .subtitle {
+  font-family: "Diphylleia", system-ui;
   font-size: 1.1rem;
   color: var(--mist-blue-gray);
   margin: 0;
@@ -461,7 +464,7 @@ a.secondary {
 
 /* 푸터 */
 .footer {
-  background: var(--dark-gray);
+  background: var(--moss-green);
   color: white;
   margin-top: auto;
   padding: 60px 0 40px;
@@ -510,7 +513,9 @@ a.secondary {
   }
 
   .headerContent h1 {
+    font-family: "Diphylleia", system-ui;
     font-size: 2rem;
+    font-weight: 400;
   }
 
   .subtitle {
@@ -596,7 +601,9 @@ a.secondary {
   }
 
   .headerContent h1 {
+    font-family: "Moirai One", system-ui;
     font-size: 1.8rem;
+    font-weight: 400;
   }
 
   .subtitle {

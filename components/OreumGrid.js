@@ -4,7 +4,13 @@ import Masonry from "react-masonry-css";
 import { searchOreum, sortOreum } from "../utils/oreumData";
 import styles from "./OreumGrid.module.css";
 
-const OreumGrid = ({ oreumList, onOreumSelect, region, district }) => {
+const OreumGrid = ({
+  oreumList,
+  onOreumSelect,
+  onGoHome,
+  region,
+  district,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("name");
 
@@ -27,7 +33,11 @@ const OreumGrid = ({ oreumList, onOreumSelect, region, district }) => {
       {/* 헤더 */}
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <h2 className={styles.title}>
+          <h2
+            className={styles.title}
+            onClick={onGoHome}
+            style={{ cursor: "pointer" }}
+          >
             {region} {district && `› ${district}`}
           </h2>
           <p className={styles.count}>
@@ -146,7 +156,9 @@ const OreumCard = ({ oreum, onClick, index }) => {
       {/* 카드 콘텐츠 */}
       <div className={styles.cardContent}>
         <h3 className={styles.oreumName}>{oreum.name}</h3>
-        <p className={styles.oreumLocation}>{oreum.subLocation}</p>
+        <p className={styles.oreumLocation}>
+          {oreum.city} {oreum.subLocation}
+        </p>
 
         <div className={styles.oreumMeta}>
           <div className={styles.metaItem}>
