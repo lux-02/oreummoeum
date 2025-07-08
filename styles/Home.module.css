@@ -173,7 +173,7 @@ a.secondary {
 
 /* 헤더 */
 .header {
-  background: white;
+  background: var(--moss-green);
   box-shadow: var(--shadow-soft);
   position: sticky;
   top: 0;
@@ -191,21 +191,16 @@ a.secondary {
 .headerContent h1 {
   font-family: "Diphylleia", system-ui;
   font-size: 2.5rem;
-  color: var(--earth-brown);
+  color: var(--white);
   margin-bottom: 8px;
   font-weight: 400;
   transition: all 0.3s ease;
 }
 
-.headerContent h1:hover {
-  color: var(--moss-green);
-  transform: scale(1.02);
-}
-
 .subtitle {
   font-family: "Diphylleia", system-ui;
   font-size: 1.1rem;
-  color: var(--mist-blue-gray);
+  color: var(--white);
   margin: 0;
 }
 

@@ -76,11 +76,11 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--light-gray);
+  background: var(--moss-green);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--earth-brown);
+  background: var(--moss-green);
   border-radius: 4px;
 }
 
