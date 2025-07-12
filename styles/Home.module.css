@@ -273,7 +273,7 @@ a.secondary {
 .loading {
   text-align: center;
   padding: 100px 20px;
-  color: var(--earth-brown);
+  color: var(--white);
 }
 
 .loadingSpinner {
