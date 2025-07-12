@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import RegionSelector from "../components/RegionSelector";
@@ -453,7 +454,8 @@ export default function Home() {
                       <div className={styles.noResults}>
                         <h3>검색 결과가 없습니다</h3>
                         <p>
-                          "{searchQuery}"와 일치하는 오름을 찾을 수 없습니다.
+                          &quot;{searchQuery}&quot;와 일치하는 오름을 찾을 수
+                          없습니다.
                         </p>
                         <button
                           className={styles.clearSearchButton}
@@ -476,12 +478,14 @@ export default function Home() {
                             transition={{ duration: 0.3 }}
                           >
                             <div className={styles.oreumImage}>
-                              <img
+                              <Image
                                 src={
                                   oreum.shapeImage ||
                                   "/img/오름 종류/원추형.jpg"
                                 }
                                 alt={oreum.name}
+                                width={300}
+                                height={200}
                                 onError={(e) => {
                                   e.target.src = "/img/오름 종류/원추형.jpg";
                                 }}
@@ -520,9 +524,11 @@ export default function Home() {
                           whileTap={{ scale: 0.98 }}
                         >
                           <div className={styles.districtImage}>
-                            <img
+                            <Image
                               src={getRegionImage(region, district)}
                               alt={`${region} ${district}`}
+                              width={300}
+                              height={200}
                             />
                           </div>
                           <div className={styles.districtInfo}>

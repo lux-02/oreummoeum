@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Masonry from "react-masonry-css";
 import { searchOreum, sortOreum } from "../utils/oreumData";
@@ -151,7 +152,13 @@ const OreumCard = ({ oreum, onClick, index }) => {
     >
       {/* 카드 이미지 */}
       <div className={styles.cardImage}>
-        <img src={getImageUrl()} alt={oreum.name} loading="lazy" />
+        <Image
+          src={getImageUrl()}
+          alt={oreum.name}
+          width={300}
+          height={200}
+          loading="lazy"
+        />
         <div className={styles.imageOverlayLeft}>
           <span className={styles.typeTag}>
             {getCleanShapeName(oreum.shape)}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { motion } from "framer-motion";
 import styles from "./RegionSelector.module.css";
 
@@ -53,7 +54,12 @@ const RegionSelector = ({ onRegionSelect }) => {
             whileTap={{ scale: 0.97 }}
           >
             <div className={styles.cardImage}>
-              <img src={region.image} alt={region.name} />
+              <Image
+                src={region.image}
+                alt={region.name}
+                width={400}
+                height={300}
+              />
               <div className={styles.imageOverlay}>
                 <h2 className={styles.regionName}>{region.name}</h2>
               </div>
