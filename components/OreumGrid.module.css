@@ -228,8 +228,8 @@
 }
 
 .typeTag {
-  background: var(--light-gray);
-  color: var(--moss-green);
+  background: var(--moss-green);
+  color: var(--white);
   padding: 6px 12px;
   border-radius: 15px;
   font-size: 0.8rem;
@@ -296,8 +296,8 @@
   -webkit-backdrop-filter: blur(2px);
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   border-left: 1px solid rgba(255, 255, 255, 0.1);
-  border-right: 1px solid rgba(255, 255, 255, 0.4);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .oreumDescription {
