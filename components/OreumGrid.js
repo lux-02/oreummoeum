@@ -51,7 +51,7 @@ const OreumGrid = ({
           <span className={styles.searchIcon}>🔍</span>
           <input
             type="text"
-            placeholder="오름명으로 검색..."
+            placeholder="오름 이름을 입력해주세요"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className={styles.searchInput}
@@ -84,8 +84,8 @@ const OreumGrid = ({
       {/* 결과가 없을 때 */}
       {filteredAndSortedOreums.length === 0 && (
         <div className={styles.noResults}>
-          <h3>검색 결과가 없습니다</h3>
-          <p>다른 검색어를 시도해보세요</p>
+          <h3>찾는 오름이 없어요</h3>
+          <p>다른 이름으로 검색해보세요</p>
         </div>
       )}
 

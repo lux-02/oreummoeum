@@ -229,7 +229,7 @@ const OreumDetail = ({ oreum, onClose }) => {
                   />
                 ) : (
                   <div className={styles.slideImageFallback}>
-                    <span>이미지를 불러올 수 없습니다</span>
+                    <span>이미지를 불러올 수 없어요</span>
                   </div>
                 )}
 
@@ -406,7 +406,7 @@ const OreumDetail = ({ oreum, onClose }) => {
       return (
         <div className={styles.photosContent}>
           <div className={styles.noImages}>
-            <p>현재 등록된 이미지가 없습니다.</p>
+            <p>아직 등록된 사진이 없어요</p>
           </div>
         </div>
       );
@@ -439,7 +439,7 @@ const OreumDetail = ({ oreum, onClose }) => {
               />
             ) : (
               <div className={styles.mainImageFallback}>
-                <span>이미지를 불러올 수 없습니다</span>
+                <span>이미지를 불러올 수 없어요</span>
               </div>
             )}
 
@@ -633,7 +633,7 @@ const OreumDetail = ({ oreum, onClose }) => {
 
           <div className={styles.tabContent}>
             {loading ? (
-              <div className={styles.loading}>데이터를 불러오는 중...</div>
+              <div className={styles.loading}>정보를 불러오고 있어요...</div>
             ) : (
               <>
                 <div

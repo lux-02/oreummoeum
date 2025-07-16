@@ -36,8 +36,8 @@ const NaverMap = ({
     const originalAuthFailure = window.navermap_authFailure;
     window.navermap_authFailure = function () {
       console.error("🚫 네이버 지도 API 인증 실패!");
-      setError("API 인증 실패: 신규 클라이언트 ID 발급 필요");
-      setStatus("❌ API 인증 실패");
+      setError("API 인증에 문제가 있어요. 신규 클라이언트 ID 발급이 필요해요");
+      setStatus("API 인증에 문제가 있어요");
 
       // 인증 실패 시 fallback UI 표시
       if (mapRef.current) {
@@ -72,7 +72,6 @@ const NaverMap = ({
         <div style="
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -136,7 +135,7 @@ const NaverMap = ({
 
         // 2단계: 네이버 지도 스크립트 로드
         console.log("2️⃣ 네이버 지도 스크립트 로드");
-        setStatus("지도 스크립트 로딩 중...");
+        setStatus("지도를 불러오고 있어요...");
         await loadNaverMapScript();
         console.log("✅ 네이버 지도 스크립트 로드 완료");
 
@@ -201,7 +200,6 @@ const NaverMap = ({
           icon: {
             content: `
               <div style="
-                background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
                 border: 3px solid white;
                 border-radius: 50%;
                 width: 36px;
@@ -246,7 +244,6 @@ const NaverMap = ({
                 margin-bottom: 12px;
               ">
                 <div style="
-                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                   border-radius: 8px;
                   padding: 8px;
                   margin-right: 12px;
@@ -275,11 +272,10 @@ const NaverMap = ({
                   border-radius: 8px;
                   text-align: center;
                 ">
-                  <div style="font-size: 20px; color: #667eea;">⛰️</div>
-                  <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">높이</div>
                   <div style="font-size: 16px; font-weight: bold; color: #2c3e50;">${
                     oreum.altitude
                   }m</div>
+                  <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">높이</div>
                 </div>
                 
                 <div style="
@@ -288,12 +284,11 @@ const NaverMap = ({
                   border-radius: 8px;
                   text-align: center;
                 ">
-                  <div style="font-size: 20px; color: #667eea;">🏞️</div>
-                  <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">형태</div>
                   <div style="font-size: 14px; font-weight: bold; color: #2c3e50;">${getCleanShapeName(
                     oreum.shape
                   )}</div>
-                </div>
+                <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">형태</div>
+                  </div>
               </div>
               
               <div style="
@@ -359,7 +354,7 @@ const NaverMap = ({
       } catch (err) {
         console.error("❌ NaverMap 오류:", err);
         setError(err.message);
-        setStatus("❌ 지도 초기화 실패");
+        setStatus("지도를 불러올 수 없어요");
 
         // 오류 시에도 fallback UI 표시
         if (mapRef.current) {

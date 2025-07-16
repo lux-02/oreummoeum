@@ -46,7 +46,7 @@ export default async function handler(req, res) {
           success: false,
           data: null,
           message:
-            "API 키 인증 실패. 네이버 클라우드 플랫폼에서 API 키를 확인해주세요.",
+            "API 키 인증에 문제가 있어요. 네이버 클라우드 플랫폼에서 API 키를 확인해주세요",
           error: "INVALID_API_KEY",
         });
       }
@@ -75,7 +75,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: false,
       data: null,
-      message: "검색 결과가 없습니다.",
+      message: "주소를 찾을 수 없어요",
     });
   } catch (error) {
     console.error("Geocoding 서버 오류:", error);

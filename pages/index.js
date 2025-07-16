@@ -83,7 +83,7 @@ export default function Home() {
         console.log(`✅ ${data.length}개 오름 데이터 로드 완료!`);
       } catch (err) {
         console.error("❌ 오름 데이터 로드 실패:", err);
-        setError("오름 데이터를 불러오는데 실패했습니다.");
+        setError("오름 정보를 불러오지 못했어요");
       } finally {
         setLoading(false);
       }
@@ -257,8 +257,8 @@ export default function Home() {
       <div className={styles.container}>
         <div className={styles.loading}>
           <div className={styles.loadingSpinner}>🌋</div>
-          <h2>오름모음을 준비하고 있습니다</h2>
-          <p>제주의 아름다운 오름들을 불러오는 중...</p>
+          <h2>오름들을 불러오고 있어요</h2>
+          <p>잠시만 기다려주세요</p>
         </div>
       </div>
     );
@@ -269,9 +269,11 @@ export default function Home() {
       <div className={styles.container}>
         <div className={styles.error}>
           <span>⚠️</span>
-          <h2>로딩 오류</h2>
-          <p>{error}</p>
-          <button onClick={() => window.location.reload()}>다시 시도</button>
+          <h2>앗, 문제가 생겼어요</h2>
+          <p>오름 정보를 불러오지 못했어요</p>
+          <button onClick={() => window.location.reload()}>
+            다시 시도할게요
+          </button>
         </div>
       </div>
     );
@@ -407,7 +409,7 @@ export default function Home() {
                         </svg>
                         <input
                           type="text"
-                          placeholder="오름 이름, 지역으로 검색..."
+                          placeholder="오름 이름이나 지역을 입력해주세요"
                           value={searchQuery}
                           onChange={handleSearchChange}
                           className={styles.searchInput}
@@ -452,10 +454,10 @@ export default function Home() {
                   <div className={styles.searchResults}>
                     {searchResults.length === 0 ? (
                       <div className={styles.noResults}>
-                        <h3>검색 결과가 없습니다</h3>
+                        <h3>찾는 오름이 없어요</h3>
                         <p>
-                          &quot;{searchQuery}&quot;와 일치하는 오름을 찾을 수
-                          없습니다.
+                          &quot;{searchQuery}&quot;와 비슷한 이름의 오름을 찾지
+                          못했어요
                         </p>
                         <button
                           className={styles.clearSearchButton}

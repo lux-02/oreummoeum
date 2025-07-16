@@ -30,8 +30,8 @@ const SimpleNaverMap = ({ oreum, width = "100%", height = "400px" }) => {
     const originalAuthFailure = window.navermap_authFailure;
     window.navermap_authFailure = function () {
       console.error("🚫 네이버 지도 API 인증 실패!");
-      setError("API 인증 실패: 신규 클라이언트 ID 발급 필요");
-      setStatus("❌ API 인증 실패");
+      setError("API 인증에 문제가 있어요. 신규 클라이언트 ID 발급이 필요해요");
+      setStatus("API 인증에 문제가 있어요");
 
       // 인증 실패 시 fallback UI 표시
       if (mapRef.current) {
@@ -128,7 +128,7 @@ const SimpleNaverMap = ({ oreum, width = "100%", height = "400px" }) => {
 
         // 2단계: 네이버 지도 스크립트 로드
         console.log("2️⃣ 네이버 지도 스크립트 로드");
-        setStatus("지도 스크립트 로딩 중...");
+        setStatus("지도를 불러오고 있어요...");
         await loadNaverMapScript();
         console.log("✅ 네이버 지도 스크립트 로드 완료");
 
@@ -274,7 +274,7 @@ const SimpleNaverMap = ({ oreum, width = "100%", height = "400px" }) => {
       } catch (err) {
         console.error("❌ SimpleNaverMap 오류:", err);
         setError(err.message);
-        setStatus("❌ 지도 초기화 실패");
+        setStatus("지도를 불러올 수 없어요");
 
         // 오류 시에도 fallback UI 표시
         if (mapRef.current) {
