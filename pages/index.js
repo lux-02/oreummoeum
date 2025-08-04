@@ -589,6 +589,20 @@ export default function Home() {
             <h4>오름모음</h4>
             <p>제주의 아름다운 오름을 디지털로 만나다</p>
           </div>
+          <button
+            style={{
+              background: "var(--earth-brown)",
+              border: "none",
+              padding: "10px",
+              borderRadius: "10px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              window.open("https://xn--bj0b10u3zketa68a.site/", "_blank");
+            }}
+          >
+            제주맹글이 여행유형 테스트 하러가기!
+          </button>
           <div className={styles.footerSection}>
             <p>총 {oreumData.length}개 오름</p>
             {statistics && (
@@ -605,7 +619,19 @@ export default function Home() {
           </div>
         </div>
         <div className={styles.footerBottom}>
-          <p>&copy; 2025 오름모음. 제주의 자연을 보존합니다.</p>
+          <p>
+            &copy; 2025 오름모음. 제주의 자연을 보존합니다.
+            <a
+              style={{
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+              }}
+              href="mailto:darkwinterlab@gmail.com"
+            >
+              문의: darkwinterlab@gmail.com
+            </a>
+          </p>
         </div>
       </footer>
     </div>
