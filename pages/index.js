@@ -596,6 +596,7 @@ export default function Home() {
               padding: "10px",
               borderRadius: "10px",
               cursor: "pointer",
+              color: "white",
             }}
             onClick={() => {
               window.open("https://xn--bj0b10u3zketa68a.site/", "_blank");
