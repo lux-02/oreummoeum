@@ -13,6 +13,11 @@ import {
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  const SITE_URL = "https://oreum.제주맹글이.site";
+  const PAGE_TITLE = "오름모음 - 제주 오름 지도, 지역별 오름 검색";
+  const PAGE_DESC =
+    "제주도의 아름다운 오름들을 담은 디지털 도감입니다. 지역별로 오름을 검색하고, 고도와 형태 정보를 한눈에 확인하세요.";
+  const OG_IMAGE = `${SITE_URL}${encodeURI("/img/오름 종류/원추형.jpg")}`;
   const [currentView, setCurrentView] = useState("main"); // 'main', 'oreumList'
   const [selectedTab, setSelectedTab] = useState("all"); // 'all', '제주시', '서귀포시'
   const [selectedRegion, setSelectedRegion] = useState(null);
@@ -282,12 +287,35 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>오름모음 - 제주 오름 디지털 도감</title>
-        <meta
-          name="description"
-          content="제주도의 아름다운 오름들을 담은 디지털 도감입니다."
-        />
+        <title>{PAGE_TITLE}</title>
+        <meta name="description" content={PAGE_DESC} />
+        <meta property="og:title" content={PAGE_TITLE} />
+        <meta property="og:description" content={PAGE_DESC} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:image:alt" content="제주 오름 전경" />
+        <meta property="og:url" content={SITE_URL} />
+        <meta name="twitter:title" content={PAGE_TITLE} />
+        <meta name="twitter:description" content={PAGE_DESC} />
+        <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "오름모음",
+              url: SITE_URL,
+              description: PAGE_DESC,
+              inLanguage: "ko-KR",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: `${SITE_URL}/?q={search_term_string}`,
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
       </Head>
 
       {/* 헤더 */}

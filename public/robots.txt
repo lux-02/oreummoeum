@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://oreum.xn--bj0b10u3zketa68a.site/sitemap.xml
+
+
